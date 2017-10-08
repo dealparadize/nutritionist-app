@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { TabTracePage } from './tab-trace';
+import { DateChooserPage } from './date-chooser';
 import { CalendarModule } from "ion2-calendar";
 
 @NgModule({
   declarations: [
-    TabTracePage,
+    DateChooserPage,
   ],
   imports: [
-    CalendarModule,    
-    IonicPageModule.forChild(TabTracePage),
+    CalendarModule,
+    IonicPageModule.forChild(DateChooserPage),
   ],
 })
-export class TabTracePageModule {}
+export class DateChooserPageModule {}

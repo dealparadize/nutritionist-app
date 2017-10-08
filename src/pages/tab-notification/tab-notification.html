@@ -10,13 +10,58 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    
-    <ion-title>tab-notification</ion-title>
+
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="notification">
+        Notificaciones
+      </ion-segment-button>
+      <ion-segment-button value="general">
+        General
+      </ion-segment-button>
+    </ion-segment>
+
+
+    <ion-title></ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="list-avatar-page">
+
+  <div [ngSwitch]="segment">
+    <div *ngSwitchCase="'notification'">
+      <ion-list>
+
+        <ion-list-header>Hoy</ion-list-header>
+
+        <ion-item *ngFor="let notification of notifications">
+          <ion-icon name="information-circle" item-start></ion-icon>
+          <h2>{{notification.title}}</h2>
+          <p>{{notification.subtitle}}</p>
+          <ion-note item-end>{{notification.hour}}</ion-note>
+        </ion-item>
+      </ion-list>
+
+
+    </div>
+
+
+    <div *ngSwitchCase="'general'">
+      <ion-list>
+
+        <ion-list-header>Hoy</ion-list-header>
+
+        <ion-item *ngFor="let general of generals">
+          <ion-icon name="disc" item-start></ion-icon>
+          <h2>{{general.title}}</h2>
+          <p>{{general.subtitle}}</p>
+          <ion-note item-end>{{general.hour}}</ion-note>
+        </ion-item>
+      </ion-list>
+
+    </div>
+  </div>
+
 
 </ion-content>

@@ -10,13 +10,85 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    
-    <ion-title>tab-configuration</ion-title>
+
+    <ion-title>Configuración</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+
+  <div text-center>
+    <img src="assets/img/user.png" alt="avatar">
+  </div>
+
+  <ion-list no-borde no-lines>
+
+    <ion-list-header no-lines>
+      <ion-icon name='person' item-start></ion-icon>
+      Perfil
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>
+        Usuario
+      </ion-label>
+      <ion-note item-end>
+        ealejandrocasillas
+      </ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        Correo
+      </ion-label>
+      <ion-note item-end>
+        ealejandrocasillas@gmail.com
+      </ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        Edad
+      </ion-label>
+      <ion-note item-end>
+        22 años
+      </ion-note>
+    </ion-item>
+
+  </ion-list>
+
+  <br>
+  <br>
+
+  <ion-list no-border no-lines>
+
+    <ion-list-header no-lines>
+      <ion-icon name='notifications' item-start></ion-icon>
+      Notificaciones
+    </ion-list-header>
+
+    <ion-item>
+      <ion-toggle checked="true"></ion-toggle>
+      <ion-label>
+        Activadas
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-select>
+        <ion-option selected>15 min</ion-option>
+        <ion-option>20 min</ion-option>
+        <ion-option>30 min</ion-option>
+      </ion-select>
+      <ion-label>
+        Frecuencia
+      </ion-label>
+    </ion-item>
+
+
+  </ion-list>
 
 </ion-content>

@@ -11,12 +11,49 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-title>tab-diet</ion-title>
+
+
+    <ion-buttons end>
+      <button ion-button color="secondary" (click)="openDateChooser()"><ion-icon name="calendar"></ion-icon></button>
+    </ion-buttons>
+
+    <ion-title>
+      <div text-center>
+        Hoy
+      </div>
+    </ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-list>
 
+    <ion-item-group *ngFor="let group of groups">
+
+      <ion-item-divider sticky>
+        <ion-label>
+          {{group.time}}
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item *ngFor="let food of group.foods">
+        <button ion-item>
+              <!-- <ion-icon name="happy" item-left></ion-icon>             -->
+              <ion-avatar item-start>
+                  <img src="assets/img/food.jpg">
+              </ion-avatar>
+              <h3>{{food.name}}</h3>
+              <p>
+                {{food.quantity}}{{food.unit}} 
+                -
+                {{food.mode}} 
+              </p>
+            </button>
+      </ion-item>
+
+    </ion-item-group>
+
+  </ion-list>
 </ion-content>

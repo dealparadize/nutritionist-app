@@ -6,5 +6,5 @@
 -->
 <ion-tabs>
   <ion-tab *ngFor='let tab of tabs' 
-    [root]='tab.component' [tabIcon]='tab.icon'></ion-tab>
+    [root]='tab.component' [tabIcon]='tab.icon' [tabBadge]="tab.badge"></ion-tab>
 </ion-tabs>

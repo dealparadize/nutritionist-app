@@ -1,5 +1,5 @@
 <!--
-  Generated template for the BookingPage page.
+  Generated template for the DateChooserPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,15 +7,11 @@
 <ion-header>
 
   <ion-navbar>
-
-  <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-  
-    <ion-title>Agendar Cita</ion-title>
+    <ion-title>Elegir fecha</ion-title>
   </ion-navbar>
 
 </ion-header>
+
 
 <ion-content padding>
   <ion-calendar [(ngModel)]="date" (onChange)="onChange($event)" [type]="type" [format]="'YYYY-MM-DD'">

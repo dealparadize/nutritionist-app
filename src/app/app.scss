@@ -14,3 +14,32 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.user-container{
+    img {
+        max-width: 5em;
+        border-radius: 50%;
+        border: 4em;
+        border-color: white;
+    }
+    background: url(../assets/img/profilebackground.jpg);
+    // background: linear-gradient(#2860ca, #2970ca);
+    background-size: 100% auto;
+    margin: 0;
+    padding: 2em;
+    color: white;
+}
+
+.main-menu {
+    background: #222;
+
+    button {
+        background: #222;
+        color: #aaa;
+    }
+
+    ion-list-header {
+        background: #222;
+        color: #ddd;
+    }
+}
