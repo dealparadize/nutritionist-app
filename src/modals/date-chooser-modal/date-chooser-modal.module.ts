@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { DateChooserPage } from './date-chooser';
+import { DateChooserModalPage } from './date-chooser-modal';
 import { CalendarModule } from "ion2-calendar";
 
 @NgModule({
   declarations: [
-    DateChooserPage,
+    DateChooserModalPage,
   ],
   imports: [
     CalendarModule,
-    IonicPageModule.forChild(DateChooserPage),
+    IonicPageModule.forChild(DateChooserModalPage),
   ],
 })
-export class DateChooserPageModule {}
+export class DateChooserModalPageModule {}

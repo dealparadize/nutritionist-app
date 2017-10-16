@@ -8,16 +8,46 @@
 
   <ion-navbar>
 
-  <button ion-button menuToggle>
+    <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-  
+
     <ion-title>Agendar Cita</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
-  <ion-calendar [(ngModel)]="date" (onChange)="onChange($event)" [type]="type" [format]="'YYYY-MM-DD'">
-  </ion-calendar>
+
+  <ion-list>
+
+    No se ha agendado una cita <br><br>
+
+    <button ion-item (click)="openDateChooser()">
+      <ion-label>
+        Fecha
+      </ion-label>
+      <ion-note item-end>
+        22 Noviembre
+      </ion-note>
+    </button>
+
+    <button ion-item (click)="openTimeChooser()">
+      <ion-label>
+        Hora
+      </ion-label>
+      <ion-note item-end>
+        05:30 PM
+      </ion-note>
+    </button>
+
+    <!-- <ion-item>
+      <ion-label>Hora</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
+    </ion-item> -->
+
+
+
+  </ion-list>
+
 </ion-content>

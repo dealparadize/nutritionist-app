@@ -17,6 +17,30 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-calendar [(ngModel)]="date" (onChange)="onChange($event)" [type]="type" [format]="'YYYY-MM-DD'">
-  </ion-calendar>
+
+  <ion-list>
+
+    <button ion-item (click)="openChart()">
+      Visualizar avance
+    </button>
+
+  </ion-list>
+
+  <ion-list no-borde>
+
+    <ion-list-header no-lines>
+      <ion-icon name='body' item-start></ion-icon>
+      Registro
+    </ion-list-header>
+
+    <ion-item *ngFor="let item of items">
+      <ion-label>
+        {{item.name}}
+      </ion-label>
+      <ion-note item-end>
+        {{item.value}}
+      </ion-note>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

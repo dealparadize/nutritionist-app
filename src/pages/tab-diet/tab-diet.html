@@ -11,10 +11,8 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-
-
     <ion-buttons end>
-      <button ion-button color="secondary" (click)="openDateChooser()"><ion-icon name="calendar"></ion-icon></button>
+      <button ion-button color="secondary" (click)="openDateChooser()" full><ion-icon name="calendar"></ion-icon></button>
     </ion-buttons>
 
     <ion-title>
@@ -32,7 +30,7 @@
 
     <ion-item-group *ngFor="let group of groups">
 
-      <ion-item-divider sticky>
+      <ion-item-divider sticky (click)="chooseMenu()">
         <ion-label>
           {{group.time}}
         </ion-label>
@@ -42,7 +40,8 @@
         <button ion-item>
               <!-- <ion-icon name="happy" item-left></ion-icon>             -->
               <ion-avatar item-start>
-                  <img src="assets/img/food.jpg">
+                  <!-- <img src="assets/img/food.jpg"> -->
+                  <img src="{{food.img}}">
               </ion-avatar>
               <h3>{{food.name}}</h3>
               <p>

@@ -1,0 +1,29 @@
+<!--
+  Generated template for the MenuChooserModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Elegir Menu</ion-title>
+    <ion-buttons end>
+      <button ion-button color="secondary" (click)="closeDateChooser()" full>Cancelar</button>
+      <!-- <button ion-button color="secondary" (click)="closeDateChooser()" full>Aceptar</button> -->
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <button ion-item *ngFor="let item of items" (click)="closeDateChooser()">
+      <h3>{{item.title}}</h3>
+      <p *ngFor="let food of item.foods">{{food}}</p>
+    </button>
+  </ion-list>
+
+</ion-content>
