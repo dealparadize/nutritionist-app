@@ -8,8 +8,8 @@ import { CalendarModule } from "ion2-calendar";
     DateChooserModalPage,
   ],
   imports: [
-    CalendarModule,
     IonicPageModule.forChild(DateChooserModalPage),
+    CalendarModule
   ],
 })
 export class DateChooserModalPageModule {}

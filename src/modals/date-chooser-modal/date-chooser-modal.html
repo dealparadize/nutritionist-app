@@ -5,19 +5,26 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>Elegir Fecha</ion-title>
-    <ion-buttons end>
-      <button ion-button color="secondary" (click)="closeDateChooser()" full>Cancelar</button>
-      <button ion-button color="secondary" (click)="closeDateChooser()" full>Aceptar</button>
-    </ion-buttons>
-  </ion-navbar>
-
-</ion-header>
-
-<ion-content padding>
-  <!-- (onChange)="onChange($event)" -->
-  <ion-calendar [(ngModel)]="date" [type]="type" [format]="'YYYY-MM-DD'" [options]="optionsMulti">
-  </ion-calendar>
-</ion-content>
+    
+      <ion-navbar>
+        <ion-title>Elegir Fecha</ion-title>
+    
+        <ion-buttons start>
+          <button ion-button (click)="dismiss()">
+            <span ion-text>Cancelar</span>
+          </button>
+          <button ion-button (click)="dismissData()" [disabled]="!this.date">
+            <span ion-text>Guardar</span>
+          </button>
+        </ion-buttons>
+    
+      </ion-navbar>
+    
+    </ion-header>
+    
+    <ion-content padding>
+    
+      <ion-calendar [options]="options" [(ngModel)]="date" (onChange)="onChange($event)" [type]="type" [format]="'YYYY-MM-DD'">
+      </ion-calendar>
+    
+    </ion-content>

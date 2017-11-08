@@ -7,12 +7,177 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>signup</ion-title>
+    <ion-title>Registro</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="background">
+
+  <form [formGroup]="myForm">
+
+    <ion-grid *ngIf="!_next">
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <input class="mxgs-control-input" type="text" placeholder="Nombre" formControlName="name" type="text" required>
+          <label ion-text *ngIf="!myForm.controls.name.valid && (myForm.controls.name.touched || myForm.controls.name.dirty)" color="light"
+            style="font-size: 0.8em;" text-center>
+           Nombre inválido (max 50 caract.)
+         </label>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <input class="mxgs-control-input" type="text" placeholder="Apellido Paterno" formControlName="lastname" type="text" required>
+          <label ion-text *ngIf="!myForm.controls.lastname.valid && (myForm.controls.lastname.touched || myForm.controls.lastname.dirty)"
+            color="light" style="font-size: 0.8em;" text-center>
+           Apellido paterno inválido (max 50 caract.)
+         </label>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <input class="mxgs-control-input" type="text" placeholder="Apellido Materno" formControlName="lastname2" type="text" required>
+          <label ion-text *ngIf="!myForm.controls.lastname2.valid && (myForm.controls.lastname2.touched || myForm.controls.lastname2.dirty)"
+            color="light" style="font-size: 0.8em;" text-center>
+           Apellido materno inválido (max 50 caract.)
+         </label>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <input class="mxgs-control-input" type="text" placeholder="Correo" formControlName="email" type="text" required>
+          <label ion-text *ngIf="!myForm.controls.email.valid && (myForm.controls.email.touched || myForm.controls.email.dirty)" color="light"
+            style="font-size: 0.8em;" text-center>
+            Correo inválido (max 50 caract.)
+         </label>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <button no-lines class="mxgs-control-input" (click)="openDateChooser()">
+            Nacimiento:
+            <ion-note item-end style="color: white;">
+              {{myDate || 'Sin fecha'}}
+            </ion-note>
+          </button>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <select class="mxgs-control-input">
+            <option value="m" selected>Hombre</option>
+            <option value="f">Mujer</option>
+          </select>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <input class="mxgs-control-input" type="text" placeholder="Teléfono" formControlName="phone" type="text" required>
+          <label ion-text *ngIf="!myForm.controls.phone.valid && (myForm.controls.phone.touched || myForm.controls.phone.dirty)" color="light"
+            style="font-size: 0.8em;" text-center>
+           Teléfono inválido (max 50 caract.)
+         </label>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <button class="mxgs-control-button" (click)="next()" type="submit" color="light" block [disabled]="
+          !myForm.controls.name.valid || !myForm.controls.lastname.valid || !myForm.controls.lastname2.valid
+          || !myForm.controls.email.valid || !myForm.controls.phone.valid 
+          ">Siguiente</button>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+    <ion-grid *ngIf="_next">
+      <label ion-text color="light" style="font-size: 0.8em;" text-center>
+       Conteste algunas de las siguientes preguntas en caso de ser necesario.
+     </label>
+      <br>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <!-- <input class="mxgs-control-input" type="text" placeholder="Teléfono" formControlName="phone" type="text" required> -->
+          <textarea class="mxgs-control-input" rows="10" placeholder="¿Tienes alguna patología? ¿Cuál?" formControlName="q1">
+          </textarea>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <textarea class="mxgs-control-input" rows="10" placeholder="¿Tienes alguna alergia? ¿A qué?" formControlName="q2">
+            </textarea>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <textarea class="mxgs-control-input" rows="10" placeholder="¿Actualmente estás tomando medicamento? ¿Cuál?" formControlName="q3">
+            </textarea>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <textarea class="mxgs-control-input" rows="10" placeholder="¿Tienes algún tratamiento hormonal?" formControlName="q4">
+            </textarea>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <textarea class="mxgs-control-input" rows="10" placeholder="¿Cuál es tu meta?" formControlName="q5">
+            </textarea>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+        <ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+          <button class="mxgs-control-button" (click)="onSignup()" type="submit" color="light" block>Registrarse</button>
+        </ion-col>
+        <ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+  </form>
 
 </ion-content>

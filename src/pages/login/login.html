@@ -18,52 +18,52 @@
 	</div>
 
 	<form #loginForm="ngForm" novalidate>
-			
-		
+
+
 		<ion-grid>
 			<ion-row align-items-center>
-				<ion-col col-xl-4 col-lg-4 col-md-3 ></ion-col>
-				<ion-col col-12 col-xl-4 col-lg-4 col-md-6 >
-					<input class="mxgs-control-input" type="text" placeholder="Usuario"
-						name="username" 
-						type="text" spellcheck="false" autocapitalize="off" required
-					>	
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+				<ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+					<input class="mxgs-control-input" type="text" placeholder="Usuario" [(ngModel)]="login.username" name="username" type="text"
+					 #username="ngModel" spellcheck="false" autocapitalize="off" required>
 				</ion-col>
-				<ion-col col-xl-4 col-lg-4 col-md-3 ></ion-col>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 			</ion-row>
 
 			<ion-row align-items-center>
-				<ion-col col-xl-4 col-lg-4 col-md-3 ></ion-col>
-				<ion-col col-12 col-xl-4 col-lg-4 col-md-6 >
-					<input class="mxgs-control-input" type="password" placeholder="Contraseña"
-							name="password" 
-							type="password" required
-					>	
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+				<ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+					<input class="mxgs-control-input" type="password" placeholder="Contraseña" [(ngModel)]="login.password" name="password" type="password"
+					 #password="ngModel" required>
+					<label ion-text [hidden]="!submitted" color="light" style="font-size: 0.8em;"
+					 text-center>
+								El nombre de usuario y la contraseña que ingresaste no coinciden con nuestros registros.
+					</label>
 				</ion-col>
-				<ion-col col-xl-4 col-lg-4 col-md-3 ></ion-col>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 			</ion-row>
 
 			<ion-row align-items-center>
-				<ion-col col-xl-4 col-lg-4 col-md-3 ></ion-col>
-				<ion-col col-12 col-xl-4 col-lg-4 col-md-6 >
-						<button class="mxgs-control-button" (click)="login()" type="submit" color="light" block>Sign in</button>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+				<ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+					<button class="mxgs-control-button" (click)="onLogin(loginForm)" type="submit" color="light" block>Login</button>
 				</ion-col>
-				<ion-col col-xl-4 col-lg-4 col-md-3 ></ion-col>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 			</ion-row>
-			
+
 			<ion-row align-items-center>
-				<ion-col col-xl-4 col-lg-4 col-md-3 ></ion-col>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 				<ion-col col-12 col-xl-4 col-lg-4 col-md-6 text-center>
-					<label  class="mxgs-control-label"><a (click)="onSignup()">Crear cuenta</a></label>
+					<label class="mxgs-control-label"><a (click)="onSignup()">Crear cuenta</a></label>
 				</ion-col>
-				<ion-col col-xl-4 col-lg-4 col-md-3 ></ion-col>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 			</ion-row>
-			
+
 		</ion-grid>
 
-						
 
-			<!-- <ion-item>
+
+		<!-- <ion-item>
 				<ion-label color="light" floating>Usuario</ion-label>  
 				<ion-input [(ngModel)]="login.username" name="username" 
 					type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required>
@@ -78,10 +78,10 @@
 				</ion-input>
 			</ion-item> -->
 
-			<!-- <p ion-text [hidden]="password.valid || submitted == false || username.valid" color="danger" padding-left>
+		<!-- <p ion-text [hidden]="password.valid || submitted == false || username.valid" color="danger" padding-left>
 				La contraseña y el password son requeridos.
 			</p> -->
-			<!-- <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+		<!-- <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
 				El usuario es requerido
 			</p> -->
 
