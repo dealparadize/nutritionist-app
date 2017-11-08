@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-
+import { UserProvider } from "../../providers/user.provider";
 
 /**
  * Generated class for the SignupPage page.
@@ -26,7 +26,8 @@ export class SignupPage {
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public formBuilder: FormBuilder,
-    public modalController: ModalController
+    public modalController: ModalController,
+    public userProvider: UserProvider
   ) {
     this.myDate = new Date(1971, 0, 1).toISOString().slice(0, 10);
     this.myForm = formBuilder.group({
@@ -65,8 +66,30 @@ export class SignupPage {
   }
 
   onSignup() {
-    console.log(this.myForm.value);
-    console.log(this.myDate);
+
+    let obj = {
+      paciente: {
+        nombre: this.myForm.value + " " + this.myForm.value.lastname + " " + this.myForm.value.lastname2,
+        email: this.myForm.value.email,
+        fecha_nacimiento: this.myDate,
+        sexo: this.myForm.value.gender,
+        telefono: this.myForm.value.phone,
+        patologia: this.myForm.value.q1,
+        alergia: this.myForm.value.q2,
+        tomando_medicacion: this.myForm.value.q3,
+        tratamiento: this.myForm.value.q4,
+        meta: this.myForm.value.q5,
+        activo: false
+      }
+    }
+
+    this.userProvider.signup(obj)
+      .do(res => console.log(res.json()))
+      .map(res => res.json())
+      .subscribe(data => {
+
+      });
+
   }
 
 }

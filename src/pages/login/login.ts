@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
+import { UserProvider } from "../../providers/user.provider";
+import { MessageProvider } from "../../providers/message.provider";
 
 /**
  * Generated class for the LoginPage page.
@@ -9,8 +11,8 @@ import { NgForm } from '@angular/forms';
  * Ionic pages and navigation.
  */
 export interface UserOptions {
-  username?: string,
-  password?: string
+  email?: string,
+  pin?: number
 }
 
 @IonicPage()
@@ -19,10 +21,16 @@ export interface UserOptions {
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  login: UserOptions = { username: '', password: '' };
+  login: UserOptions = { email: '', pin: undefined };
   submitted = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public userProvider: UserProvider,
+    public messageProvider: MessageProvider,
+    public events: Events
+  ) {
   }
 
   ionViewDidLoad() {
@@ -32,10 +40,22 @@ export class LoginPage {
   onLogin(form: NgForm) {
 
     if (form.valid) {
-      console.log("Login values", form.value);
+      this.userProvider.login(this.login.email, this.login.pin)
+        .do(res => console.log(res.json()))
+        .map(res => res.json())
+        .subscribe(data => {
+          let user = data[0];
+          this.messageProvider.toast('Bienvenido a Nutritionist app');
+
+          this.userProvider.setUser(user).then(data => {
+            this.events.publish('user:login');
+            this.navCtrl.setRoot('TabsPage');
+          });
+        });
     } else {
+      
       this.submitted = true;
-      console.log("Invalid login")
+      this.messageProvider.toast('Error al iniciar sesión');
     }
   }
 

@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav } from 'ionic-angular';
+import { Platform, Nav, Events, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { UserProvider } from "../providers/user.provider";
 
 export interface PageInterface {
   title: string;
@@ -22,21 +22,33 @@ export interface PageInterface {
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  user: any;
+
   rootPage: any = 'LoginPage';
 
   appPages: PageInterface[] = [
     { title: 'Inicio', name: 'TabsPage', component: 'TabsPage', tabComponent: 'TabsPage', index: 0, icon: 'home' },
-    { title: 'Agendar', name: 'BookingPage', component: 'BookingPage', tabComponent: 'BookingPage',icon: 'bookmarks' },
+    { title: 'Agendar', name: 'BookingPage', component: 'BookingPage', tabComponent: 'BookingPage', icon: 'bookmarks' },
     { title: 'Despensa', name: 'PantryPage', component: 'PantryPage', tabComponent: 'PantryPage', icon: 'list' },
     { title: 'Acerca de', name: 'AboutPage', component: 'AboutPage', tabComponent: 'AboutPage', icon: 'information-circle' },
   ];
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(
+    platform: Platform,
+    statusBar: StatusBar,
+    splashScreen: SplashScreen,
+    public events: Events,
+    public menu: MenuController,
+    public userProvider: UserProvider  
+  ) {
+
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      this.disableMenu();      
       statusBar.styleDefault();
       splashScreen.hide();
+      this.listenToLoginEvents();
     });
   }
 
@@ -73,5 +85,26 @@ export class MyApp {
 
     // this.isActive(page);
   }
+
+  enableMenu() {
+    this.menu.enable(true, 'appMenu');
+  }
+
+  disableMenu() {
+    this.menu.enable(false, 'appMenu');
+  }
+
+  listenToLoginEvents() {
+    this.events.subscribe('user:login', () => {
+      this.enableMenu();
+      this.userProvider.getUser()
+        .then(user => {
+          if (user) {
+            this.user = user;
+          }
+        });
+    });
+  }
+
 }
 

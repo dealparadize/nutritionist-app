@@ -3,13 +3,13 @@
 <ion-split-pane>
 
 
-  <ion-menu [content]="content">
+  <ion-menu id="appMenu" [content]="content">
     <ion-content class="main-menu">
 
       <div class="user-container">
         <img src="assets/img/user.png" alt="avatar">
-        <h5>{{username || 'username'}}</h5>
-        <p>{{email || 'example@email.com'}}</p>
+        <h5>{{user?.nombre || 'username'}}</h5>
+        <p>{{user?.email || 'example@email.com'}}</p>
       </div>
 
       <ion-list no-lines>

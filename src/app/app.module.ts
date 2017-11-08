@@ -9,13 +9,22 @@ import { Chart } from 'chart.js';
 
 import { MyApp } from './app.component';
 
+import { HttpModule } from "@angular/http";
+import { IonicStorageModule } from '@ionic/storage';
+
+import { ApiProvider } from "../providers/api.provider";
+import { UserProvider } from "../providers/user.provider";
+import { MessageProvider } from "../providers/message.provider";
+
 @NgModule({
   declarations: [
     MyApp
   ],
   imports: [
-    CalendarModule,    
+    CalendarModule,
     BrowserModule,
+    HttpModule,
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -26,7 +35,12 @@ import { MyApp } from './app.component';
     DatePicker,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+
+    ApiProvider,
+    UserProvider,
+    MessageProvider,
+
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }
