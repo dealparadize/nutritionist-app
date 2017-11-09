@@ -67,6 +67,6 @@ export class UserProvider {
     };
     //endpoint para recuperar las citas de un día
     getAppointmentsForDate(data:any):Observable<any>{
-        return this.api.get('/appointmentForDate/',data)
+        return this.api.get('/appointmentForDate/'+data)
     };
 }

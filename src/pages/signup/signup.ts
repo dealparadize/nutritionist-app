@@ -76,9 +76,10 @@ export class SignupPage {
 		let modal = this.modalController.create('DateChooserModalPage', { data: { date: this.appointment, to: new Date(2012, 0, 1), from: new Date(1970, 0, 1) } });
 		modal.present();
 		modal.onDidDismiss((data) => {
-			console.log(data);
+			//console.log(data);
 			if (!data) return;
 			this.appointment = new Date(data).toISOString().slice(0, 10);
+			console.log("segundo "+ this.appointment);
 			this.userProvider.getAppointmentsForDate(this.appointment)	//para que se vuelve a reiniciar el date
 				.do(res => console.log(res.json()))
 				.map(res => res.json())
