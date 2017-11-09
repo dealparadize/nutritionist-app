@@ -61,5 +61,12 @@ export class UserProvider {
         this.storage.remove('user');
         this.events.publish('user:logout');
     };
-
+    //endpoint para crear una cita
+    createAppointment(data: any): Observable<any>{
+        return this.api.post('/appointment/',data);
+    };
+    //endpoint para recuperar las citas de un día
+    getAppointmentsForDate(data:any):Observable<any>{
+        return this.api.get('/appointmentForDate/',data)
+    };
 }
