@@ -24,8 +24,9 @@ export class SignupPage {
 	/*hours=[{hour:"09:00"},{hour:"09:30"},{hour:"10:00"},{hour:"10:30"},{hour:"11:00"},{hour:"11:30"}
 			,{hour:"12:00"},{hour:"12:30"},{hour:"13:00"},{hour:"13:30"},{hour:"14:00"},{hour:"14:30"}
 			,{hour:"15:00"},{hour:"15:30"},{hour:"16:00"},{hour:"16:30"}];*/
-	hours=["09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30",
-			"15:00","15:30","16:00","16:30"];
+	/*hours=["09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30",
+			"15:00","15:30","16:00","16:30"];*/
+	hours=[];
 
 	constructor(
 		public navCtrl: NavController,
@@ -57,9 +58,6 @@ export class SignupPage {
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad SignupPage');
 	}
-	getHour(date):String{
-		return date.slice(11,16);
-	}
 	openDateChooser() {
 		console.log(this.myDate)
 		let modal = this.modalController.create('DateChooserModalPage', { data: { date: this.myDate, to: new Date(2012, 0, 1), from: new Date(1970, 0, 1) } });
@@ -84,12 +82,29 @@ export class SignupPage {
 				.do(res => console.log(res.json()))
 				.map(res => res.json())
 				.subscribe(data => {
+					//console.log(data.appointment[1]);
+					console.log(this.filterHours(data.appointment));
+					this.hours=this.filterHours(data.appointment);
 					//obtener el json con los que ya estan 	
 					//
 				});
 		});
-
-
+	}
+	filterHours(reserved):string[]{
+		let h=["09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30",
+		"15:00","15:30","16:00","16:30"];
+		let i;
+		reserved.forEach(hour => {
+			i=h.indexOf(this.getHour(hour));
+			if(i>=0){
+				h.splice(i,1);
+			}
+		});
+		
+		return h;
+	}
+	getHour(date):string{
+		return date.slice(11,16);
 	}
 	next() {
 		this._next = true;
@@ -108,31 +123,32 @@ export class SignupPage {
 		.do(res => console.log(res.json()))
 		.map(res => res.json())
 		.subscribe(data => {
-		
-		});
-		let obj = {
-			paciente: {
-				nombre: this.myForm.value + " " + this.myForm.value.lastname + " " + this.myForm.value.lastname2,
-				email: this.myForm.value.email,
-				fecha_nacimiento: this.myDate,
-				sexo: this.myForm.value.gender,
-				telefono: this.myForm.value.phone,
-				patologia: this.myForm.value.q1,
-				alergia: this.myForm.value.q2,
-				tomando_medicacion: this.myForm.value.q3,
-				tratamiento: this.myForm.value.q4,
-				meta: this.myForm.value.q5,
-				activo: false,
-				idCita:id //se guarda la cita generada
+			id=data.appointment._id;
+			let obj = {
+				paciente: {
+					nombre: this.myForm.value + " " + this.myForm.value.lastname + " " + this.myForm.value.lastname2,
+					email: this.myForm.value.email,
+					fecha_nacimiento: this.myDate,
+					sexo: this.myForm.value.gender,
+					telefono: this.myForm.value.phone,
+					patologia: this.myForm.value.q1,
+					alergia: this.myForm.value.q2,
+					tomando_medicacion: this.myForm.value.q3,
+					tratamiento: this.myForm.value.q4,
+					meta: this.myForm.value.q5,
+					activo: false,
+					idCita:id //se guarda la cita generada
+				}
 			}
-		}
+			
+			this.userProvider.signup(obj)
+				.do(res => console.log(res.json()))
+				.map(res => res.json())
+				.subscribe(data => {
+	
+				});
+		});
 		
-		this.userProvider.signup(obj)
-			.do(res => console.log(res.json()))
-			.map(res => res.json())
-			.subscribe(data => {
-
-			});
 
 	}
 
