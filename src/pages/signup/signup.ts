@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { UserProvider } from "../../providers/user.provider";
-
+import { ToastController } from 'ionic-angular';
 /**
  * Generated class for the SignupPage page.
  *
@@ -34,10 +34,11 @@ export class SignupPage {
 		public viewCtrl: ViewController,
 		public formBuilder: FormBuilder,
 		public modalController: ModalController,
-		public userProvider: UserProvider
+		public userProvider: UserProvider,
+		public toastCtrl: ToastController
 	) {
 		this.myDate = new Date(1971, 0, 1).toISOString().slice(0, 10);
-		this.appointment= new Date(1971,0,1).toISOString().slice(0,10);
+		this.appointment= new Date().toISOString().slice(0,10);
 		this.myForm = formBuilder.group({
 			name: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
 			lastname: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
@@ -71,7 +72,7 @@ export class SignupPage {
 	//aqui se obtiene las horas y se genera el nuevo arreglo para el select
 	openAppointmentDateChooser() {
 		console.log("holaaaaaaaa "+this.appointment)
-		let modal = this.modalController.create('DateChooserModalPage', { data: { date: this.appointment, to: new Date(2012, 0, 1), from: new Date(1970, 0, 1) } });
+		let modal = this.modalController.create('DateChooserModalPage', { data: { date: this.appointment, to: new Date(2030, 0, 1), from: new Date() } });
 		modal.present();
 		modal.onDidDismiss((data) => {
 			//console.log(data);
@@ -108,14 +109,18 @@ export class SignupPage {
 	}
 	next() {
 		this._next = true;
+		console.log(this.appointment+"T"+this.myForm.value.hour+':00Z')
 	}
 
 	onSignup() {
 		//armar fecha para crear cita
 		let obj2= {
-			appointment:{
-				fecha:this.appointment+'T'+this.myForm.value.hour+':00Z'			}
+			cita:{
+				fecha:this.appointment+'T'+this.myForm.value.hour+':00Z',
+				status:'pendiente'			
+			}
 		};
+		console.log(obj2.cita.fecha);
 		//crear cita
 		let id:any;
 		//obtener _id que no recuerdo en cual es do en map o en subscribe
@@ -126,7 +131,7 @@ export class SignupPage {
 			id=data.appointment._id;
 			let obj = {
 				paciente: {
-					nombre: this.myForm.value + " " + this.myForm.value.lastname + " " + this.myForm.value.lastname2,
+					nombre: this.myForm.value.name + " " + this.myForm.value.lastname + " " + this.myForm.value.lastname2,
 					email: this.myForm.value.email,
 					fecha_nacimiento: this.myDate,
 					sexo: this.myForm.value.gender,
@@ -145,11 +150,25 @@ export class SignupPage {
 				.do(res => console.log(res.json()))
 				.map(res => res.json())
 				.subscribe(data => {
-	
+					this.showToast();
 				});
 		});
 		
 
+	}
+	showToast(){
+		let toast = this.toastCtrl.create({
+			message: 'Te has registrado exitosamente. Te esperamos en nuestro consultorio en la fecha agendada',
+			duration: 3000,
+			position: 'middle'
+		  });
+		
+		  toast.onDidDismiss(() => {
+			console.log('Dismissed toast');
+			this.navCtrl.pop();
+		  });
+		
+		  toast.present();
 	}
 
 }
