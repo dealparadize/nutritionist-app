@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { UserProvider } from "../../providers/user.provider";
 import { MessageProvider } from "../../providers/message.provider";
-
+import { OneSignal } from '@ionic-native/onesignal';
 /**
  * Generated class for the LoginPage page.
  *
@@ -29,6 +29,7 @@ export class LoginPage {
     public navParams: NavParams,
     public userProvider: UserProvider,
     public messageProvider: MessageProvider,
+    private oneSignal: OneSignal,
     public events: Events
   ) {
   }
@@ -38,19 +39,24 @@ export class LoginPage {
   }
 
   onLogin(form: NgForm) {
-
+    var userId = this.oneSignal.getIds();
+    var devicekey;
+    userId.then(function(ids){
+      devicekey = ids.userId
+      console.log(devicekey);
+    });
     if (form.valid) {
-      this.userProvider.login(this.login.email, this.login.pin)
+      this.userProvider.login(this.login.email, this.login.pin,devicekey)
         .do(res => console.log(res.json()))
         .map(res => res.json())
         .subscribe(data => {
           let user = data[0];
           this.messageProvider.toast('Bienvenido a Nutritionist app');
-
           this.userProvider.setUser(user).then(data => {
             this.events.publish('user:login');
             this.navCtrl.setRoot('TabsPage');
           });
+          this.userProvider.setDeviceKey(devicekey).then(data => {})//guarda devicekey
         });
     } else {
       

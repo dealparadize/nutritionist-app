@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController, ModalController } 
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { UserProvider } from "../../providers/user.provider";
 import { ToastController } from 'ionic-angular';
+import { OneSignal } from '@ionic-native/onesignal';
 /**
  * Generated class for the SignupPage page.
  *
@@ -35,6 +36,7 @@ export class SignupPage {
 		public formBuilder: FormBuilder,
 		public modalController: ModalController,
 		public userProvider: UserProvider,
+		private oneSignal: OneSignal,
 		public toastCtrl: ToastController
 	) {
 		this.myDate = new Date(1971, 0, 1).toISOString().slice(0, 10);
@@ -129,33 +131,46 @@ export class SignupPage {
 		.map(res => res.json())
 		.subscribe(data => {
 			id=data.appointment._id;
-			let obj = {
-				paciente: {
-					nombre: this.myForm.value.name + " " + this.myForm.value.lastname + " " + this.myForm.value.lastname2,
-					email: this.myForm.value.email,
-					fecha_nacimiento: this.myDate,
-					sexo: this.myForm.value.gender,
-					telefono: this.myForm.value.phone,
-					patologia: this.myForm.value.q1,
-					alergia: this.myForm.value.q2,
-					tomando_medicacion: this.myForm.value.q3,
-					tratamiento: this.myForm.value.q4,
-					meta: this.myForm.value.q5,
-					activo: false,
-					idCita:id //se guarda la cita generada
-				}
-			}
+			var userId = this.oneSignal.getIds();
+			var devicekey;
+			userId.then(function(ids){
+				devicekey = ids.userId
+				console.log(devicekey);
+				createPatient(id,devicekey);
+			});
 			
-			this.userProvider.signup(obj)
-				.do(res => console.log(res.json()))
-				.map(res => res.json())
-				.subscribe(data => {
-					this.showToast();
-				});
 		});
-		
+		var _this_ = this;
+		var createPatient = function(id, devicekey){
+			
+				let obj = {
+					paciente: {
+						nombre: _this_.myForm.value.name + " " + _this_.myForm.value.lastname + " " + _this_.myForm.value.lastname2,
+						email: _this_.myForm.value.email,
+						fecha_nacimiento: _this_.myDate,
+						sexo: _this_.myForm.value.gender,
+						telefono: _this_.myForm.value.phone,
+						patologia: _this_.myForm.value.q1,
+						alergia: _this_.myForm.value.q2,
+						tomando_medicacion: _this_.myForm.value.q3,
+						tratamiento: _this_.myForm.value.q4,
+						meta: _this_.myForm.value.q5,
+						activo: false,
+						idCita:id, //se guarda la cita generada
+						device_key: devicekey
+					}
+				}
+				
+				_this_.userProvider.signup(obj)
+					.do(res => console.log(res.json()))
+					.map(res => res.json())
+					.subscribe(data => {
+						_this_.showToast();
+					});
+			}	
 
 	}
+	
 	showToast(){
 		let toast = this.toastCtrl.create({
 			message: 'Te has registrado exitosamente. Te esperamos en nuestro consultorio en la fecha agendada',

@@ -3,7 +3,7 @@ import { Platform, Nav, Events, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { UserProvider } from "../providers/user.provider";
-
+import { OneSignal}from "@ionic-native/onesignal";
 export interface PageInterface {
   title: string;
   name: string;
@@ -39,6 +39,7 @@ export class MyApp {
     splashScreen: SplashScreen,
     public events: Events,
     public menu: MenuController,
+    private oneSignal: OneSignal,
     public userProvider: UserProvider  
   ) {
 
@@ -49,6 +50,25 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
       this.listenToLoginEvents();
+
+      var notificationOpenedCallback = function(jsonData) {
+        //console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+        
+        this.UserProvider.getDeviceKey().then(data => {
+          if(data.deviceKey!=null){
+            this.navCtrl.setRoot('TabsPage');  
+          }else{
+            this.navCtrl.setRoot("Login");
+          }
+          
+        });
+      };
+  
+      this.oneSignal
+        .startInit("ee63927a-ed8e-4510-a20e-687d880eb211", "62647511192")
+        .handleNotificationOpened(notificationOpenedCallback)
+        .endInit();
+      
     });
   }
 

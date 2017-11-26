@@ -16,6 +16,7 @@ export class UserProvider {
     private HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
     private _token: String;
     private _user: any;
+    private _devicekey: String;
     private _business: String;
 
     constructor(
@@ -25,15 +26,25 @@ export class UserProvider {
     ) {
 
     }
-
+    get deviceKey():any{
+        return this._devicekey;
+    }
     get user(): any {
         return this._user;
-    };
-
+    }
+    set deviceKey(deviceKey: any){
+        this._devicekey = deviceKey;
+    }
     set user(user: any) {
         this._user = user;
     };
+    setDeviceKey(data: any): Promise<any> {
+        return this.storage.set('deviceKey', data);
+    };
 
+    getDeviceKey(): Promise<any> {
+        return this.storage.get('deviceKey');
+    }
     setUser(data: any): Promise<any> {
         return this.storage.set('user', data);
     };
@@ -42,12 +53,13 @@ export class UserProvider {
         return this.storage.get('user');
     }
 
-    login(email: string, pin: number): Observable<any> {
+    login(email: string, pin: number,deviceKey : string): Observable<any> {
         return this.api.post('/patient/login/',
             {
                 paciente: {
                     email: email,
-                    pin: pin
+                    pin: pin,
+                    deviceKey: deviceKey
                 }
             });
     };

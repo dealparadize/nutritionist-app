@@ -6,7 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { CalendarModule } from "ion2-calendar";
 import { DatePicker } from '@ionic-native/date-picker';
 import { Chart } from 'chart.js';
-
+import { OneSignal } from '@ionic-native/onesignal';
 import { MyApp } from './app.component';
 
 import { HttpModule } from "@angular/http";
@@ -35,7 +35,7 @@ import { MessageProvider } from "../providers/message.provider";
     DatePicker,
     StatusBar,
     SplashScreen,
-
+    OneSignal,
     ApiProvider,
     UserProvider,
     MessageProvider,
