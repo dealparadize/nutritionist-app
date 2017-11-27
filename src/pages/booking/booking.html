@@ -6,24 +6,55 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+	<ion-navbar>
 
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
 
-    <ion-title>Agendar Cita</ion-title>
-  </ion-navbar>
+		<ion-title>Agendar Cita</ion-title>
+	</ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
 
-  <ion-list>
+	<ion-list>
 
-    No se ha agendado una cita <br><br>
-
-    <button ion-item (click)="openDateChooser()">
+		No se ha agendado una cita
+		<br>
+		<br>
+		<form [formGroup]="myForm">
+			<ion-row align-items-center>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+				<ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+					<button no-lines ion-item (click)="openAppointmentDateChooser()">
+						Agenda tu Cita:
+						<ion-note item-end style="color: black;">
+							{{appointment || 'Sin fecha'}}
+						</ion-note>
+					</button>
+				</ion-col>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+			</ion-row>
+			<ion-row align-items-center>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+				<ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+					<select  formControlName="hour">
+						<option *ngFor="let h of hours" value="{{h}}">{{h}}</option>
+					</select>
+				</ion-col>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+			</ion-row>
+			<ion-row align-items-center>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+				<ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+					<button ion-item (click)="onRegister()" type="submit" color="light" block>Registrarse</button>
+				</ion-col>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+			</ion-row>
+		</form>
+		<!--button ion-item (click)="openDateChooser()">
       <ion-label>
         Fecha
       </ion-label>
@@ -48,6 +79,6 @@
 
 
 
-  </ion-list>
+	</ion-list>
 
 </ion-content>
