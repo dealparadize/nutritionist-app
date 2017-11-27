@@ -73,8 +73,7 @@ export class UserProvider {
     };
 
     logout(): void {
-        this.storage.remove('token');
-        this.storage.remove('user');
+        // this.storage.remove('');
         this.events.publish('user:logout');
     };
     //endpoint para crear una cita

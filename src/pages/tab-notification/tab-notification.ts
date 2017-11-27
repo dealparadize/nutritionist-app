@@ -20,7 +20,7 @@ export class TabNotificationPage {
   notifications: any[];
   generals: any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public userProvider:UserProvider,public notificationMsj:NotificationMessageProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public userProvider: UserProvider, public notificationMsj: NotificationMessageProvider) {
     this.segment = "notification";
 
     this.notifications = [
@@ -42,36 +42,23 @@ export class TabNotificationPage {
     ];
 
     this.generals = [
-      {
-        title: "Cita",
-        subtitle: "Cita el próximo Jueves 19 de Octubre",
-        hour: "09:00"
-      },
-      {
-        title: "Cambio de acuerdos",
-        subtitle: "Cambio de acuerdos en la aplicación",
-        hour: "10:00"
-      },
-      {
-        title: "Notificación de prueba",
-        subtitle: "Probando las notificaciones",
-        hour: "11:00"
-      },
     ];
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TabNotificationPage');
+
+  }
+
+  ionViewWillEnter() {
     this.userProvider.getUser().then(datos => {
-      console.log("userinstorage");
-      console.log(datos.user._id);
       this.userProvider.api.setTokenHeader(datos.token);
       this.notificationMsj.getMessages(datos.user._id)
-      .do(res => {}/*console.log(res.json())*/)
-      .map(res => res.json())
-      .subscribe(data => {
-        console.log(data);
-      });
+        .do(res => { console.log(res.json()) })
+        .map(res => res.json())
+        .subscribe(data => {
+          this.generals = data.mensajes;
+        });
     });
   }
 
