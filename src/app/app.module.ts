@@ -15,7 +15,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { ApiProvider } from "../providers/api.provider";
 import { UserProvider } from "../providers/user.provider";
 import { MessageProvider } from "../providers/message.provider";
-
+import { NotificationMessageProvider } from "../providers/notification_message.provider";
 @NgModule({
   declarations: [
     MyApp
@@ -39,7 +39,7 @@ import { MessageProvider } from "../providers/message.provider";
     ApiProvider,
     UserProvider,
     MessageProvider,
-
+    NotificationMessageProvider,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

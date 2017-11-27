@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { UserProvider } from "../../providers/user.provider";
+import { NotificationMessageProvider } from "../../providers/notification_message.provider";
 /**
  * Generated class for the TabNotificationPage page.
  *
@@ -19,7 +20,7 @@ export class TabNotificationPage {
   notifications: any[];
   generals: any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public userProvider:UserProvider,public notificationMsj:NotificationMessageProvider) {
     this.segment = "notification";
 
     this.notifications = [
@@ -61,6 +62,17 @@ export class TabNotificationPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TabNotificationPage');
+    this.userProvider.getUser().then(datos => {
+      console.log("userinstorage");
+      console.log(datos.user._id);
+      this.userProvider.api.setTokenHeader(datos.token);
+      this.notificationMsj.getMessages(datos.user._id)
+      .do(res => {}/*console.log(res.json())*/)
+      .map(res => res.json())
+      .subscribe(data => {
+        console.log(data);
+      });
+    });
   }
 
 }
