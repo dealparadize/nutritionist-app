@@ -60,6 +60,12 @@ export class SignupPage {
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad SignupPage');
+		this.userProvider.getUser().then(datos => {
+			console.log("userinstorage");
+			console.log(datos.user._id);
+			this.userProvider.api.setTokenHeader(datos.token);
+			
+		  });
 	}
 	openDateChooser() {
 		console.log(this.myDate)

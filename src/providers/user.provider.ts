@@ -71,7 +71,9 @@ export class UserProvider {
     signup(data: any): Observable<any> {
         return this.api.post('/patient/', data);
     };
-
+    updateAppointment(id:any,data:any):Observable<any>{
+        return this.api.put('/appointment/'+id,data);
+    };
     logout(): void {
         // this.storage.remove('');
         this.events.publish('user:logout');
