@@ -51,14 +51,17 @@ export class MyApp {
       splashScreen.hide();
       this.listenToLoginEvents();
 
+      var _this_ = this;
       var notificationOpenedCallback = function(jsonData) {
         //console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
         
-        this.UserProvider.getDeviceKey().then(data => {
-          if(data.deviceKey!=null){
-            this.navCtrl.setRoot('TabsPage');  
+        _this_.userProvider.getUser().then(data => {
+          console.log("userinstorage");
+          console.log(data);
+          if(data !=null){
+            _this_.nav.setRoot("AboutPage");  
           }else{
-            this.navCtrl.setRoot("Login");
+            _this_.nav.setRoot("LoginPage");
           }
           
         });

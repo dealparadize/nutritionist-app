@@ -40,33 +40,37 @@ export class LoginPage {
 
   onLogin(form: NgForm) {
     var userId = this.oneSignal.getIds();
-    var devicekey;
+	var devicekey;
+	var _this_ = this;
     userId.then(function(ids){
-      devicekey = ids.userId
-      console.log(devicekey);
-    });
-    if (form.valid) {
-      this.userProvider.login(this.login.email, this.login.pin,devicekey)
-        .do(res => console.log(res.json()))
-        .map(res => res.json())
-        .subscribe(data => {
-          let user = data[0];
-          this.messageProvider.toast('Bienvenido a Nutritionist app');
-          this.userProvider.setUser(user).then(data => {
-            this.events.publish('user:login');
-            this.navCtrl.setRoot('TabsPage');
+	  devicekey = ids.userId
+	  console.log("devicekey");
+	  console.log(devicekey);
+	  
+      if (form.valid) {
+        _this_.userProvider.login(_this_.login.email, _this_.login.pin,devicekey)
+          .do(res => console.log(res.json()))
+          .map(res => res.json())
+          .subscribe(data => {
+			console.log("user");
+			console.log(data);
+            let user = data;
+            _this_.messageProvider.toast('Bienvenido a Nutritionist app');
+            _this_.userProvider.setUser(user).then(data => {
+				_this_.events.publish('user:login');
+				_this_.navCtrl.setRoot('TabsPage');
+            });
+            
           });
-          this.userProvider.setDeviceKey(devicekey).then(data => {})//guarda devicekey
-        });
-    } else {
-      
-      this.submitted = true;
-      this.messageProvider.toast('Error al iniciar sesión');
-    }
+      } else {
+        
+        _this_.submitted = true;
+        _this_.messageProvider.toast('Error al iniciar sesión');
+      }
+    });
   }
 
   onSignup() {
     this.navCtrl.push('SignupPage');
   }
-
 }

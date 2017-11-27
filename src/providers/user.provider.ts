@@ -49,6 +49,10 @@ export class UserProvider {
         return this.storage.set('user', data);
     };
 
+    deleteStorage(){
+        this.storage.clear();
+    }
+
     getUser(): Promise<any> {
         return this.storage.get('user');
     }
