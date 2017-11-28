@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { UserProvider } from "../../providers/user.provider";
 /**
  * Generated class for the TabTracePage page.
  *
@@ -10,78 +10,80 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-tab-trace',
-  templateUrl: 'tab-trace.html',
+	selector: 'page-tab-trace',
+	templateUrl: 'tab-trace.html',
 })
 export class TabTracePage {
+	userData: any;
+	peso:any="";
+	tipo:any="";
+	
+	pliegues:Array<any>=[
+		{name:"Tricipital",value:""},
+		{name:"sEscapulada",value:""},
+		{name:"Bicapital",value:""},
+		{name:"Seliaco",value:""},
+		{name:"Sespinaje",value:""},
+		{name:"Abdominal",value:""},
+		{name:"Muslo",value:""},
+		{name:"Pantorrilla",value:""}];
+	circunferencia:Array<any>=[
+		{name:"Brazo",value:""},
+		{name:"Cintura",value:""},
+		{name:"Cadera",value:""},
+		{name:"Brazo contorno",value:""},
+		{name:"Muslo",value:""},
+		{name:"Pantorrilla",value:""}];
+	items: Array<any> = [];
 
-  items: Array<any> = [
-    {
-      name: "Peso actual",
-      value: "92"
-    },
-    {
-      name: "Peso ideal",
-      value: "67"
-    },
-    {
-      name: "% Peso ideal",
-      value: "136"
-    },
-    {
-      name: "Complexión",
-      value: "11"
-    },
-    {
-      name: "Tipo complexión",
-      value: "Mediana"
-    },
-    {
-      name: "ICC",
-      value: "0.8"
-    },{
-      name: "IMC",
-      value: "31"
-    },
-    {
-      name: "AMBd",
-      value: "32"
-    },
-    {
-      name: "MMT",
-      value: "23"
-    },
-    {
-      name: "% Grasa",
-      value: "28"
-    },
-    {
-      name: "Masa grasa",
-      value: "26"
-    },
-    {
-      name: "% Grasa extra",
-      value: "10"
-    },
-    {
-      name: "Masa grasa ex",
-      value: "9"
-    },
-    {
-      name: "Masa osea",
-      value: "44"
-    }
-  ];
+	constructor(public navCtrl: NavController, public navParams: NavParams, public userProvider: UserProvider) {
+	}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+	openChart() {
+		this.navCtrl.push('ChartTestPage');
+	}
 
-  openChart(){
-    this.navCtrl.push('ChartTestPage');
-  }
+	ionViewDidLoad() {
+		console.log('ionViewDidLoad TabTracePage');
+		let obj:{name:"",value:""};
+		this.userProvider.getUser().then(datos => {
+			console.log("userinstorage");
+			console.log(datos.user);
+			this.userData=datos.user;
+			this.userProvider.api.setTokenHeader(datos.token);
+			console.log(datos.user.idCita);
+			this.userProvider.getAppointmentRegisterData(datos.user.idCita)
+			.do(res => console.log(res.json()))
+			.map(res => res.json())
+			.subscribe(data => {
+				console.log(data);
+				this.peso=data.registrodecita[0].peso;
+				this.tipo=data.registrodecita[0].tipo;
+				
+				let i=0;
+				for(var p in data.registrodecita[0].mediciones.pliegues){
+					this.pliegues[i].value=data.registrodecita[0].mediciones.pliegues[p];
+					i++;
+				}
+				i=0;
+				for(var c in data.registrodecita[0].mediciones.cirfunferencias){
+					console.log(data.registrodecita[0].mediciones.cirfunferencias[c])
+					this.circunferencia[i].value=data.registrodecita[0].mediciones.cirfunferencias[c];
+					i++;
+				}
+				//console.log(this.pliegues);
+				
+			});
+		  });
+		//console.log(this.userData.idCita);
+		/*this.userProvider.getAppointmentRegisterData(this.userData.idCita)
+		.do(res => console.log(res.json()))
+		.map(res => res.json())
+		.subscribe(data => {
+			console.log(data);
+		});*/
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TabTracePage');
-  }
+		
+	}
 
 }

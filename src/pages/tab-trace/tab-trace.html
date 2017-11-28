@@ -32,8 +32,37 @@
       <ion-icon name='body' item-start></ion-icon>
       Registro
     </ion-list-header>
-
-    <ion-item *ngFor="let item of items">
+    
+    <ion-item >
+      <ion-label>
+        Peso
+      </ion-label>
+      <ion-note item-end>
+        {{peso}}
+      </ion-note>
+    </ion-item>
+    <ion-item >
+      <ion-label>
+        Tipo
+      </ion-label>
+      <ion-note item-end>
+        {{tipo}}
+      </ion-note>
+    </ion-item>
+    <hr>
+    <h4>Mediciones</h4>
+    <h6>Pliegues</h6>
+    <ion-item *ngFor="let item of pliegues">
+      <ion-label>
+        {{item.name}}
+      </ion-label>
+      <ion-note item-end>
+        {{item.value}}
+      </ion-note>
+    </ion-item>
+    <hr>
+    <h6>Circunferencias</h6>
+    <ion-item *ngFor="let item of circunferencia">
       <ion-label>
         {{item.name}}
       </ion-label>
