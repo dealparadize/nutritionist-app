@@ -4,6 +4,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { UserProvider } from "../providers/user.provider";
 import { OneSignal } from "@ionic-native/onesignal";
+import { Storage } from '@ionic/storage';
+
 export interface PageInterface {
   title: string;
   name: string;
@@ -41,7 +43,8 @@ export class MyApp {
     public events: Events,
     public menu: MenuController,
     private oneSignal: OneSignal,
-    public userProvider: UserProvider
+    public userProvider: UserProvider,
+    public storage: Storage
   ) {
 
     platform.ready().then(() => {
@@ -52,27 +55,40 @@ export class MyApp {
       splashScreen.hide();
       this.listenToLoginEvents();
 
-      var _this_ = this;
-      var notificationOpenedCallback = function (jsonData) {
-        //console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-
-        _this_.userProvider.getUser().then(data => {
-          console.log("userinstorage");
-          console.log(data);
-          if (data != null) {
-            _this_.nav.setRoot("AboutPage");
-          } else {
-            _this_.nav.setRoot("LoginPage");
-          }
-
-        });
-      };
+      // var _this_ = this;
+      // var notificationOpenedCallback = function (jsonData) {
+      //   //console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+      //   _this_.userProvider.getUser().then(data => {
+      //     if (data != null) {
+      //       _this_.nav.setRoot("TabsPage");
+      //     } else {
+      //       _this_.nav.setRoot("LoginPage");
+      //     }
+      //   });
+      // };
 
       // this.oneSignal
       //   .startInit("ee63927a-ed8e-4510-a20e-687d880eb211", "62647511192")
       //   .handleNotificationOpened(notificationOpenedCallback)
       //   .endInit();
 
+      this.oneSignal
+        .startInit("ee63927a-ed8e-4510-a20e-687d880eb211", "62647511192");
+
+      this.oneSignal.handleNotificationOpened()
+        .subscribe(data => {
+
+          this.userProvider.getUser().then(data => {
+            if (data != null) {
+              this.nav.setRoot("TabsPage");
+            } else {
+              this.nav.setRoot("LoginPage");
+            }
+
+          });
+
+        });
+      this.oneSignal.endInit();
     });
   }
 
@@ -131,6 +147,7 @@ export class MyApp {
 
     this.events.subscribe('user:logout', () => {
       this.rootPage = 'LoginPage';
+      this.storage.clear();
     });
 
 

@@ -20,7 +20,12 @@ export class TabNotificationPage {
   notifications: any[];
   generals: any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public userProvider: UserProvider, public notificationMsj: NotificationMessageProvider) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public userProvider: UserProvider,
+    public notificationMsj: NotificationMessageProvider
+  ) {
     this.segment = "notification";
 
     this.notifications = [

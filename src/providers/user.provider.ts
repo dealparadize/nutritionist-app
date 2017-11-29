@@ -45,6 +45,7 @@ export class UserProvider {
     getDeviceKey(): Promise<any> {
         return this.storage.get('deviceKey');
     }
+    
     setUser(data: any): Promise<any> {
         return this.storage.set('user', data);
     };
