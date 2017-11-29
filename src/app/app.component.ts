@@ -68,10 +68,10 @@ export class MyApp {
         });
       };
 
-      this.oneSignal
-        .startInit("ee63927a-ed8e-4510-a20e-687d880eb211", "62647511192")
-        .handleNotificationOpened(notificationOpenedCallback)
-        .endInit();
+      // this.oneSignal
+      //   .startInit("ee63927a-ed8e-4510-a20e-687d880eb211", "62647511192")
+      //   .handleNotificationOpened(notificationOpenedCallback)
+      //   .endInit();
 
     });
   }
@@ -118,6 +118,7 @@ export class MyApp {
   }
 
   listenToLoginEvents() {
+
     this.events.subscribe('user:login', () => {
       this.enableMenu();
       this.userProvider.getUser()

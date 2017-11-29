@@ -20,10 +20,10 @@ export class ApiProvider {
     constructor(
         public http: Http
     ) {
-        
+
     }
-    setTokenHeader(token: string){
-        this.headers.set('x-access-token',token);
+    setTokenHeader(token: string) {
+        this.headers.set('x-access-token', token);
     }
     get(endpoint: string, params?: any): Observable<any> {
         let options = new RequestOptions({ headers: this.headers });
