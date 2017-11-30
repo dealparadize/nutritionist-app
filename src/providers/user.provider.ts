@@ -80,6 +80,9 @@ export class UserProvider {
     getAppointmentRegisterData(data: any):Observable<any>{
         return this.api.get('/appointmentRegister/appointment/'+data);
     }
+    getFirstLastAppointmentRegisterData(data:any):Observable<any>{
+        return this.api.get('/apointmentRegister/firstLast/user/'+data);
+    }
     //endpoint para crear una cita
     createAppointment(data: any): Observable<any>{
         return this.api.post('/appointment/',data);
