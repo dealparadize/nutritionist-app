@@ -22,9 +22,11 @@ export class ApiProvider {
     ) {
 
     }
+
     setTokenHeader(token: string) {
         this.headers.set('x-access-token', token);
     }
+    
     get(endpoint: string, params?: any): Observable<any> {
         let options = new RequestOptions({ headers: this.headers });
 

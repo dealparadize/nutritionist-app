@@ -72,24 +72,30 @@ export class MyApp {
       //   .handleNotificationOpened(notificationOpenedCallback)
       //   .endInit();
 
+      this.loginStorage();
+
       this.oneSignal
         .startInit("ee63927a-ed8e-4510-a20e-687d880eb211", "62647511192");
 
       this.oneSignal.handleNotificationOpened()
         .subscribe(data => {
-
-          this.userProvider.getUser().then(data => {
-            if (data != null) {
-              this.nav.setRoot("TabsPage");
-            } else {
-              this.nav.setRoot("LoginPage");
-            }
-
-          });
-
+          this.loginStorage();
         });
       this.oneSignal.endInit();
     });
+  }
+
+  loginStorage() {
+
+    this.userProvider.getUser().then(data => {
+      if (data) {
+        this.userProvider.api.setTokenHeader(data.token);
+        this.events.publish('user:login');
+      } else {
+        this.nav.setRoot("LoginPage");
+      }
+    });
+
   }
 
 
@@ -137,6 +143,7 @@ export class MyApp {
 
     this.events.subscribe('user:login', () => {
       this.enableMenu();
+      this.rootPage = 'TabsPage';
       this.userProvider.getUser()
         .then(user => {
           if (user) {

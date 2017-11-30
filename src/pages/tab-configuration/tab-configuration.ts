@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { UserProvider } from "../../providers/user.provider";
 /**
  * Generated class for the TabConfigurationPage page.
  *
@@ -15,11 +15,25 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class TabConfigurationPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public userProvider: UserProvider
+  ) {
   }
+
+  user: any;
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TabConfigurationPage');
+  }
+
+  ionViewWillEnter() {
+    this.userProvider.getUser()
+      .then(data => {
+        this.user = data.user;
+        console.log("useeeeeeeer", this.user);
+      })
   }
 
 }

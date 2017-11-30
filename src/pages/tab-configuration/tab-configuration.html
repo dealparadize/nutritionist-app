@@ -33,10 +33,10 @@
 
     <ion-item>
       <ion-label>
-        Usuario
+        Nombre
       </ion-label>
       <ion-note item-end>
-        ealejandrocasillas
+        {{user?.nombre || ''}}
       </ion-note>
     </ion-item>
 
@@ -45,16 +45,16 @@
         Correo
       </ion-label>
       <ion-note item-end>
-        ealejandrocasillas@gmail.com
+        {{user?.email || ''}}
       </ion-note>
     </ion-item>
 
     <ion-item>
       <ion-label>
-        Edad
+        Fecha
       </ion-label>
       <ion-note item-end>
-        22 años
+        {{user?.fecha_nacimiento || ''}}
       </ion-note>
     </ion-item>
 

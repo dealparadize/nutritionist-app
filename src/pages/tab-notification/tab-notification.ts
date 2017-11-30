@@ -57,7 +57,6 @@ export class TabNotificationPage {
 
   ionViewWillEnter() {
     this.userProvider.getUser().then(datos => {
-      this.userProvider.api.setTokenHeader(datos.token);
       this.notificationMsj.getMessages(datos.user._id)
         .do(res => { console.log(res.json()) })
         .map(res => res.json())

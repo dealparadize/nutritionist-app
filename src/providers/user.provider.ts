@@ -14,10 +14,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UserProvider {
     private HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
-    private _token: String;
     private _user: any;
     private _devicekey: String;
-    private _business: String;
 
     constructor(
         public events: Events,
@@ -45,7 +43,7 @@ export class UserProvider {
     getDeviceKey(): Promise<any> {
         return this.storage.get('deviceKey');
     }
-    
+
     setUser(data: any): Promise<any> {
         return this.storage.set('user', data);
     };
