@@ -16,9 +16,9 @@ import { UserProvider } from "../../providers/user.provider";
 export class TabTracePage {
 	userData: any;
 	peso:any="";
-	tipo:any="";
-	
-	pliegues:Array<any>=[
+	talla:any="";
+	pliegues:Array<any>=[];
+	qpliegues:Array<any>=[
 		{name:"Tricipital",value:""},
 		{name:"sEscapulada",value:""},
 		{name:"Bicapital",value:""},
@@ -27,7 +27,8 @@ export class TabTracePage {
 		{name:"Abdominal",value:""},
 		{name:"Muslo",value:""},
 		{name:"Pantorrilla",value:""}];
-	circunferencia:Array<any>=[
+	circunferencia:Array<any>=[];
+	acircunferencia:Array<any>=[
 		{name:"Brazo",value:""},
 		{name:"Cintura",value:""},
 		{name:"Cadera",value:""},
@@ -45,45 +46,25 @@ export class TabTracePage {
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad TabTracePage');
-		let obj:{name:"",value:""};
+		let obj={name:"",value:""};
 		this.userProvider.getUser().then(datos => {
-			console.log("userinstorage");
-			console.log(datos.user);
 			this.userData=datos.user;
 			this.userProvider.api.setTokenHeader(datos.token);
-			console.log(datos.user.idCita);
 			this.userProvider.getAppointmentRegisterData(datos.user.idCita)
 			.do(res => console.log(res.json()))
 			.map(res => res.json())
 			.subscribe(data => {
 				console.log(data);
 				this.peso=data.registrodecita[0].peso;
-				this.tipo=data.registrodecita[0].tipo;
-				
-				let i=0;
+				this.talla=data.registrodecita[0].talla;
 				for(var p in data.registrodecita[0].mediciones.pliegues){
-					this.pliegues[i].value=data.registrodecita[0].mediciones.pliegues[p];
-					i++;
+					this.pliegues.push({name:p+"",value:data.registrodecita[0].mediciones.pliegues[p]});
 				}
-				i=0;
 				for(var c in data.registrodecita[0].mediciones.cirfunferencias){
-					console.log(data.registrodecita[0].mediciones.cirfunferencias[c])
-					this.circunferencia[i].value=data.registrodecita[0].mediciones.cirfunferencias[c];
-					i++;
+					this.circunferencia.push({name:c+"",value:data.registrodecita[0].mediciones.cirfunferencias[c]});
 				}
-				//console.log(this.pliegues);
-				
 			});
 		  });
-		//console.log(this.userData.idCita);
-		/*this.userProvider.getAppointmentRegisterData(this.userData.idCita)
-		.do(res => console.log(res.json()))
-		.map(res => res.json())
-		.subscribe(data => {
-			console.log(data);
-		});*/
-
-		
 	}
 
 }
