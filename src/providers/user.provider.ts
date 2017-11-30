@@ -75,8 +75,7 @@ export class UserProvider {
         return this.api.put('/appointment/'+id,data);
     };
     logout(): void {
-        this.storage.remove('token');
-        this.storage.remove('user');
+        // this.storage.remove('');
         this.events.publish('user:logout');
     };
     getAppointmentRegisterData(data: any):Observable<any>{

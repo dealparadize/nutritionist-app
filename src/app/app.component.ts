@@ -3,7 +3,7 @@ import { Platform, Nav, Events, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { UserProvider } from "../providers/user.provider";
-import { OneSignal}from "@ionic-native/onesignal";
+import { OneSignal } from "@ionic-native/onesignal";
 export interface PageInterface {
   title: string;
   name: string;
@@ -31,6 +31,7 @@ export class MyApp {
     { title: 'Agendar', name: 'BookingPage', component: 'BookingPage', tabComponent: 'BookingPage', icon: 'bookmarks' },
     { title: 'Despensa', name: 'PantryPage', component: 'PantryPage', tabComponent: 'PantryPage', icon: 'list' },
     { title: 'Acerca de', name: 'AboutPage', component: 'AboutPage', tabComponent: 'AboutPage', icon: 'information-circle' },
+    { title: 'Logout', name: 'LoginPage', component: 'LoginPage', icon: 'log-out', logsOut: true }
   ];
 
   constructor(
@@ -40,43 +41,48 @@ export class MyApp {
     public events: Events,
     public menu: MenuController,
     private oneSignal: OneSignal,
-    public userProvider: UserProvider  
+    public userProvider: UserProvider
   ) {
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.disableMenu();      
+      this.disableMenu();
       statusBar.styleDefault();
       splashScreen.hide();
       this.listenToLoginEvents();
 
       var _this_ = this;
-      var notificationOpenedCallback = function(jsonData) {
+      var notificationOpenedCallback = function (jsonData) {
         //console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-        
+
         _this_.userProvider.getUser().then(data => {
           console.log("userinstorage");
           console.log(data);
-          if(data !=null){
-            _this_.nav.setRoot("AboutPage");  
-          }else{
+          if (data != null) {
+            _this_.nav.setRoot("AboutPage");
+          } else {
             _this_.nav.setRoot("LoginPage");
           }
-          
+
         });
       };
-  
-      this.oneSignal
-        .startInit("ee63927a-ed8e-4510-a20e-687d880eb211", "62647511192")
-        .handleNotificationOpened(notificationOpenedCallback)
-        .endInit();
-      
+
+      // this.oneSignal
+      //   .startInit("ee63927a-ed8e-4510-a20e-687d880eb211", "62647511192")
+      //   .handleNotificationOpened(notificationOpenedCallback)
+      //   .endInit();
+
     });
   }
 
 
   openPage(page: PageInterface) {
+    if (page.logsOut === true) {
+      // Give the menu time to close before changing to logged out
+      this.userProvider.logout();
+    }
+
     let params = {};
 
     // the nav component was found using @ViewChild(Nav)
@@ -100,12 +106,6 @@ export class MyApp {
         console.log(`Didn't set nav root: ${err}`);
       });
     }
-
-    // if (page.logsOut === true) {
-    //   // Give the menu time to close before changing to logged out
-    //   this.userProvider.logout();
-    // }
-
     // this.isActive(page);
   }
 
@@ -118,6 +118,7 @@ export class MyApp {
   }
 
   listenToLoginEvents() {
+
     this.events.subscribe('user:login', () => {
       this.enableMenu();
       this.userProvider.getUser()
@@ -127,6 +128,12 @@ export class MyApp {
           }
         });
     });
+
+    this.events.subscribe('user:logout', () => {
+      this.rootPage = 'LoginPage';
+    });
+
+
   }
 
 }
