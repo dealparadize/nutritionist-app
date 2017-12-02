@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { UserProvider } from "../providers/user.provider";
 import { OneSignal } from "@ionic-native/onesignal";
 import { Storage } from '@ionic/storage';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 export interface PageInterface {
   title: string;
@@ -27,6 +28,7 @@ export class MyApp {
   user: any;
 
   rootPage: any = 'LoginPage';
+  img: any;
 
   appPages: PageInterface[] = [
     { title: 'Inicio', name: 'TabsPage', component: 'TabsPage', tabComponent: 'TabsPage', index: 0, icon: 'home' },
@@ -44,7 +46,8 @@ export class MyApp {
     public menu: MenuController,
     private oneSignal: OneSignal,
     public userProvider: UserProvider,
-    public storage: Storage
+    public storage: Storage,
+    public camera: Camera
   ) {
 
     platform.ready().then(() => {
@@ -147,14 +150,26 @@ export class MyApp {
       this.userProvider.getUser()
         .then(user => {
           if (user) {
-            this.user = user;
+            this.user = user.user;
           }
+        });
+
+      this.userProvider.getImage()
+        .then(data => {
+          this.img = data;
         });
     });
 
     this.events.subscribe('user:logout', () => {
       this.rootPage = 'LoginPage';
       this.storage.clear();
+    });
+
+    this.events.subscribe('user:image', () => {
+      this.userProvider.getImage()
+        .then(data => {
+          this.img = data;
+        });
     });
 
 

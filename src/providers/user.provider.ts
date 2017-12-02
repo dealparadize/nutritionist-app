@@ -48,13 +48,22 @@ export class UserProvider {
         return this.storage.set('user', data);
     };
 
+    getUser(): Promise<any> {
+        return this.storage.get('user');
+    }
+
+    setImage(data: any): Promise<any> {
+        return this.storage.set('image', data);
+    };
+
+    getImage(): Promise<any> {
+        return this.storage.get('image');
+    }
+
     deleteStorage(){
         this.storage.clear();
     }
 
-    getUser(): Promise<any> {
-        return this.storage.get('user');
-    }
 
     login(email: string, pin: number,deviceKey : string): Observable<any> {
         return this.api.post('/patient/login/',

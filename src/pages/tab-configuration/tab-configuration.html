@@ -21,7 +21,7 @@
 
 
   <div text-center>
-    <img src="assets/img/user.png" alt="avatar">
+    <img src="{{img || 'assets/img/user.png'}}" alt="avatar">
   </div>
 
   <ion-list no-borde no-lines>
@@ -58,6 +58,14 @@
       </ion-note>
     </ion-item>
 
+    <button ion-item (click)="getPicture()">
+        <ion-label>
+          Cambiar foto
+        </ion-label>
+        <ion-note item-end>
+        </ion-note>
+
+    </button>
   </ion-list>
 
   <br>

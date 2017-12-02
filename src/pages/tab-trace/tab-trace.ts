@@ -15,7 +15,6 @@ import { UserProvider } from "../../providers/user.provider";
 })
 export class TabTracePage {
 	userData: any;
-<<<<<<< HEAD
 	peso: any = "";
 	tipo: any = "";
 
@@ -35,28 +34,6 @@ export class TabTracePage {
 		{ name: "Brazo contorno", value: "" },
 		{ name: "Muslo", value: "" },
 		{ name: "Pantorrilla", value: "" }];
-=======
-	peso:any="";
-	talla:any="";
-	pliegues:Array<any>=[];
-	qpliegues:Array<any>=[
-		{name:"Tricipital",value:""},
-		{name:"sEscapulada",value:""},
-		{name:"Bicapital",value:""},
-		{name:"Seliaco",value:""},
-		{name:"Sespinaje",value:""},
-		{name:"Abdominal",value:""},
-		{name:"Muslo",value:""},
-		{name:"Pantorrilla",value:""}];
-	circunferencia:Array<any>=[];
-	acircunferencia:Array<any>=[
-		{name:"Brazo",value:""},
-		{name:"Cintura",value:""},
-		{name:"Cadera",value:""},
-		{name:"Brazo contorno",value:""},
-		{name:"Muslo",value:""},
-		{name:"Pantorrilla",value:""}];
->>>>>>> 18f19ecc4687fdfaa79743960bcb8a466a6730b5
 	items: Array<any> = [];
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public userProvider: UserProvider) {

@@ -16,6 +16,8 @@ import { ApiProvider } from "../providers/api.provider";
 import { UserProvider } from "../providers/user.provider";
 import { MessageProvider } from "../providers/message.provider";
 import { NotificationMessageProvider } from "../providers/notification_message.provider";
+import { Camera, CameraOptions } from '@ionic-native/camera';
+
 @NgModule({
   declarations: [
     MyApp
@@ -40,6 +42,7 @@ import { NotificationMessageProvider } from "../providers/notification_message.p
     UserProvider,
     MessageProvider,
     NotificationMessageProvider,
+    Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
