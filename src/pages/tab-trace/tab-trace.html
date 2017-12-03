@@ -46,10 +46,10 @@
         Talla
       </ion-label>
       <ion-note item-end>
-        {{tipo || 'Sin tipo'}}
+        {{tipo || 'Sin registro'}}
       </ion-note>
     </ion-item>
-    <hr>
+    <br>
     <h4>Mediciones</h4>
     <h6>Pliegues</h6>
     <ion-item *ngFor="let item of pliegues">
@@ -57,17 +57,17 @@
         {{item.name}}
       </ion-label>
       <ion-note item-end>
-        {{item.value}}
+        {{item.value || 'Sin registro'}}
       </ion-note>
     </ion-item>
-    <hr>
+    <br>
     <h6>Circunferencias</h6>
     <ion-item *ngFor="let item of circunferencia">
       <ion-label>
         {{item.name}}
       </ion-label>
       <ion-note item-end>
-        {{item.value}}
+        {{item.value || 'Sin registro'}}
       </ion-note>
     </ion-item>
   </ion-list>

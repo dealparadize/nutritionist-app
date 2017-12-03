@@ -27,6 +27,7 @@ export class TabTracePage {
 		{ name: "Abdominal", value: "" },
 		{ name: "Muslo", value: "" },
 		{ name: "Pantorrilla", value: "" }];
+
 	circunferencia: Array<any> = [
 		{ name: "Brazo", value: "" },
 		{ name: "Cintura", value: "" },
@@ -34,6 +35,7 @@ export class TabTracePage {
 		{ name: "Brazo contorno", value: "" },
 		{ name: "Muslo", value: "" },
 		{ name: "Pantorrilla", value: "" }];
+		
 	items: Array<any> = [];
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public userProvider: UserProvider) {
@@ -47,10 +49,7 @@ export class TabTracePage {
 		console.log('ionViewDidLoad TabTracePage');
 		let obj: { name: "", value: "" };
 		this.userProvider.getUser().then(datos => {
-			console.log("userinstorage");
-			console.log(datos.user);
 			this.userData = datos.user;
-			this.userProvider.api.setTokenHeader(datos.token);
 			this.userProvider.getAppointmentRegisterData(datos.user.idCita)
 				.do(res => console.log(res.json()))
 				.map(res => res.json())
