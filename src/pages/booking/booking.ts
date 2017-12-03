@@ -4,6 +4,9 @@ import { DatePicker } from '@ionic-native/date-picker';
 import { UserProvider } from "../../providers/user.provider";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { MessageProvider } from "../../providers/message.provider";
+
+import * as moment from 'moment'
+
 /**
  * Generated class for the BookingPage page.
  *
@@ -17,10 +20,12 @@ import { MessageProvider } from "../../providers/message.provider";
 	templateUrl: 'booking.html',
 })
 export class BookingPage {
+	moment = moment;
 	myForm: FormGroup;
-	appointment: string;//2015-03-25T12:00:00Z
+	appointment: string;
 	hours = [];
 	_userdata: any;
+	appointment_obj: any;
 
 	constructor(
 		public navCtrl: NavController,
@@ -32,30 +37,23 @@ export class BookingPage {
 		public messageProvider: MessageProvider,
 		public datePicker: DatePicker
 	) {
-
-		this.appointment = new Date().toISOString().slice(0, 10);
+		// this.appointment = new Date().toISOString().slice(0, 10);
 		this.myForm = formBuilder.group({
 			hour: ['', Validators.compose([Validators.required])]
 		});
+		this.moment.locale('es');
 	}
 	openAppointmentDateChooser() {
 		let modal = this.modalController.create('DateChooserModalPage', { data: { date: this.appointment, to: new Date(2030, 0, 1), from: new Date() } });
 		modal.present();
 		modal.onDidDismiss((data) => {
-			//console.log(data);
 			if (!data) return;
 			this.appointment = new Date(data).toISOString().slice(0, 10);
-			console.log("segundo " + this.appointment);
 			this.userProvider.getAppointmentsForDate(this.appointment)	//para que se vuelve a reiniciar el date
 				.do(res => console.log(res.json()))
 				.map(res => res.json())
 				.subscribe(data => {
-					//console.log(data.appointment[1]);
-					//console.log(this.filterHours(data.appointment));
 					this.hours = this.filterHours(data.appointment);
-					console.log(this.hours);
-					//obtener el json con los que ya estan 	
-					//
 				});
 		});
 	}
@@ -82,31 +80,37 @@ export class BookingPage {
 				fecha: this.appointment + 'T' + this.myForm.value.hour + ':00Z',
 			}
 		};
-		console.log(obj2.cita.fecha);
 		//crear cita
-		console.log(this._userdata.idCita);
 		this.userProvider.updateAppointment(this._userdata.idCita, obj2)
 			.do(res => console.log(res.json()))
 			.map(res => res.json())
 			.subscribe(data => {
 				this.messageProvider.toast("Cita actualizada exitósamente");
-
+				this.load();
 			}, err => {
 				this.messageProvider.toast("Cita no actualiza exitósamente");
-				console.log(err);
-				console.log(err.json());
 			});
+	}
+
+	load() {
+		this.userProvider.getUser().then(datos => {
+			let a = datos.sS;
+			this._userdata = datos.user;
+
+			this.userProvider.getAppointmentById(this._userdata.idCita)
+				.do(res => console.log(res.json()))
+				.map(res => res.json())
+				.subscribe(data => {
+					this.appointment_obj = data.appointment[0];
+					this.appointment_obj.fecha_moment = this.moment(this.appointment_obj.fecha).format('LLL');
+					this.appointment = undefined;
+				});
+		});
 	}
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad BookingPage');
-		this.userProvider.getUser().then(datos => {
-			console.log("userinstorage");
-			console.log(datos.user);
-			this._userdata = datos.user;
-			this.userProvider.api.setTokenHeader(datos.token);
-
-		});
+		this.load();
 	}
 
 }

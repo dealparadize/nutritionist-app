@@ -5,6 +5,9 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, URLSearchParams, Headers } from "@angular/http";
 import { Observable } from "rxjs/Observable";
+import { LoadingController, Loading, Events } from "ionic-angular";
+
+import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 
@@ -16,9 +19,15 @@ export class ApiProvider {
     private headers = new Headers({
         'Content-Type': 'application/json',
     });
+    private message: string = '';
+    private loadingFlag: boolean;
+    private loading = this.loadingCtrl.create({
+        content: this.message
+    });
 
     constructor(
-        public http: Http
+        public http: Http,
+        public loadingCtrl: LoadingController,
     ) {
 
     }
@@ -26,7 +35,7 @@ export class ApiProvider {
     setTokenHeader(token: string) {
         this.headers.set('x-access-token', token);
     }
-    
+
     get(endpoint: string, params?: any): Observable<any> {
         let options = new RequestOptions({ headers: this.headers });
 
@@ -40,26 +49,64 @@ export class ApiProvider {
             // a search field set in options.
             options.search = !options.search && p || options.search;
         }
-        return this.http.get(`${this.url}${endpoint}`, options);
+
+        let loading = this.getLoading();
+        loading.present();
+
+        return this.http.get(`${this.url}${endpoint}`, options)
+            .finally(() => {
+                loading.dismiss();
+            });
     }
 
     post(endpoint: string, body: any): Observable<any> {
         let options = new RequestOptions({ headers: this.headers });
+
+        let loading = this.getLoading();
+        loading.present();
+
         return this.http.post(`${this.url}${endpoint}`, body, options);
     }
 
     put(endpoint: string, body: any): Observable<any> {
         let options = new RequestOptions({ headers: this.headers });
-        return this.http.put(`${this.url}${endpoint}`, body, options);
+
+        let loading = this.getLoading();
+        loading.present();
+
+        return this.http.put(`${this.url}${endpoint}`, body, options)
+            .finally(() => {
+                loading.dismiss();
+            });
     }
 
     delete(endpoint: string): Observable<any> {
         let options = new RequestOptions({ headers: this.headers });
-        return this.http.delete(`${this.url}${endpoint}`, options);
+
+        let loading = this.getLoading();
+        loading.present();
+
+        return this.http.delete(`${this.url}${endpoint}`, options)
+            .finally(() => {
+                loading.dismiss();
+            });;
     }
 
     patch(endpoint: string, body: any): Observable<any> {
         let options = new RequestOptions({ headers: this.headers });
-        return this.http.put(`${this.url}${endpoint}`, body, options);
+
+        let loading = this.getLoading();
+        loading.present();
+
+        return this.http.put(`${this.url}${endpoint}`, body, options)
+            .finally(() => {
+                loading.dismiss();
+            });
+    }
+
+    getLoading(): Loading {
+        return this.loadingCtrl.create({
+            content: this.message
+        });
     }
 }

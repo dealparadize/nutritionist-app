@@ -24,18 +24,23 @@ export class UserProvider {
     ) {
 
     }
-    get deviceKey():any{
+
+    get deviceKey(): any {
         return this._devicekey;
     }
+
     get user(): any {
         return this._user;
     }
-    set deviceKey(deviceKey: any){
+
+    set deviceKey(deviceKey: any) {
         this._devicekey = deviceKey;
     }
+
     set user(user: any) {
         this._user = user;
     };
+
     setDeviceKey(data: any): Promise<any> {
         return this.storage.set('deviceKey', data);
     };
@@ -60,12 +65,11 @@ export class UserProvider {
         return this.storage.get('image');
     }
 
-    deleteStorage(){
+    deleteStorage() {
         this.storage.clear();
     }
 
-
-    login(email: string, pin: number,deviceKey : string): Observable<any> {
+    login(email: string, pin: number, deviceKey: string): Observable<any> {
         return this.api.post('/patient/login/',
             {
                 paciente: {
@@ -79,25 +83,35 @@ export class UserProvider {
     signup(data: any): Observable<any> {
         return this.api.post('/patient/', data);
     };
-    updateAppointment(id:any,data:any):Observable<any>{
-        return this.api.put('/appointment/'+id,data);
+
+    updateAppointment(id: any, data: any): Observable<any> {
+        return this.api.put('/appointment/' + id, data);
     };
+
     logout(): void {
         // this.storage.remove('');
         this.events.publish('user:logout');
     };
-    getAppointmentRegisterData(data: any):Observable<any>{
-        return this.api.get('/appointmentRegister/appointment/'+data);
+
+    getAppointmentRegisterData(data: any): Observable<any> {
+        return this.api.get('/appointmentRegister/appointment/' + data);
     }
-    getFirstLastAppointmentRegisterData(data:any):Observable<any>{
-        return this.api.get('/apointmentRegister/firstLast/user/'+data);
+
+    getFirstLastAppointmentRegisterData(data: any): Observable<any> {
+        return this.api.get('/apointmentRegister/firstLast/user/' + data);
     }
+
     //endpoint para crear una cita
-    createAppointment(data: any): Observable<any>{
-        return this.api.post('/appointment/',data);
+    createAppointment(data: any): Observable<any> {
+        return this.api.post('/appointment/', data);
     };
+
     //endpoint para recuperar las citas de un día
-    getAppointmentsForDate(data:any):Observable<any>{
-        return this.api.get('/appointmentForDate/'+data)
+    getAppointmentsForDate(data: any): Observable<any> {
+        return this.api.get('/appointmentForDate/' + data);
+    };
+
+    getAppointmentById (id: any): Observable<any> {
+        return this.api.get('/appointment/' + id);
     };
 }

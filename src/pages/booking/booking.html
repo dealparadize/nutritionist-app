@@ -21,10 +21,11 @@
 
 	<ion-list>
 
-		No se ha agendado una cita
+		<br>Próxima cita: {{this?.appointment_obj?.fecha_moment || 'Sin fecha'}}
 		<br>
-		<br>
+
 		<form [formGroup]="myForm">
+
 			<ion-row align-items-center>
 				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 				<ion-col col-12 col-xl-4 col-lg-4 col-md-6>
@@ -37,23 +38,37 @@
 				</ion-col>
 				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 			</ion-row>
-			<ion-row align-items-center>
+
+			<ion-row align-items-center *ngIf="appointment">
 				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 				<ion-col col-12 col-xl-4 col-lg-4 col-md-6>
-					<select  formControlName="hour">
+					<select formControlName="hour" class="mxgs-control-input">
 						<option *ngFor="let h of hours" value="{{h}}">{{h}}</option>
 					</select>
 				</ion-col>
 				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 			</ion-row>
+
+
+			<ion-row align-items-center>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+				<ion-col col-12 col-xl-4 col-lg-4 col-md-6>
+					<button class="mxgs-control-button" (click)="onRegister()" type="submit" color="light" block [disabled]="!appointment || !myForm.value.hour">Registrarse</button>
+				</ion-col>
+				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
+			</ion-row>
+
+			<!-- 
 			<ion-row align-items-center>
 				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 				<ion-col col-12 col-xl-4 col-lg-4 col-md-6>
 					<button ion-item (click)="onRegister()" type="submit" color="light" block>Registrarse</button>
 				</ion-col>
 				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
-			</ion-row>
+			</ion-row> -->
+
 		</form>
+
 		<!--button ion-item (click)="openDateChooser()">
       <ion-label>
         Fecha
@@ -72,7 +87,7 @@
       </ion-note>
     </button>
 
-    <!-- <ion-item>
+   	<ion-item>
       <ion-label>Hora</ion-label>
       <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
     </ion-item> -->
