@@ -16,7 +16,7 @@ import { UserProvider } from "../../providers/user.provider";
 export class TabTracePage {
 	userData: any;
 	peso: any = "";
-	tipo: any = "";
+	talla: any = "";
 
 	pliegues: Array<any> = [
 		{ name: "Tricipital", value: "" },
@@ -34,7 +34,9 @@ export class TabTracePage {
 		{ name: "Cadera", value: "" },
 		{ name: "Brazo contorno", value: "" },
 		{ name: "Muslo", value: "" },
-		{ name: "Pantorrilla", value: "" }];
+		{ name: "Pantorrilla", value: "" },
+		{ name: "Muñeca", value: ""}
+		];
 		
 	items: Array<any> = [];
 
@@ -50,28 +52,26 @@ export class TabTracePage {
 		let obj: { name: "", value: "" };
 		this.userProvider.getUser().then(datos => {
 			this.userData = datos.user;
-			this.userProvider.getAppointmentRegisterData(datos.user.idCita)
-				.do(res => console.log(res.json()))
+			this.userProvider.getFirstLastAppointmentRegisterData(datos.user._id)
+			.do(res => console.log(res.json()))
 				.map(res => res.json())
 				.subscribe(data => {
 					console.log(data);
-					this.peso = data.registrodecita[0].peso;
-					this.tipo = data.registrodecita[0].tipo;
+					this.peso = data.registrodecita[data.registrodecita.length-1].peso;
+					this.talla = data.registrodecita[data.registrodecita.length-1].talla;
 
 					let i = 0;
-					for (var p in data.registrodecita[0].mediciones.pliegues) {
-						this.pliegues[i].value = data.registrodecita[0].mediciones.pliegues[p];
+					for (var p in data.registrodecita[data.registrodecita.length-1].mediciones.pliegues) {
+						this.pliegues[i].value = data.registrodecita[data.registrodecita.length-1].mediciones.pliegues[p];
 						i++;
 					}
 					i = 0;
-					for (var c in data.registrodecita[0].mediciones.cirfunferencias) {
-						console.log(data.registrodecita[0].mediciones.cirfunferencias[c])
-						this.circunferencia[i].value = data.registrodecita[0].mediciones.cirfunferencias[c];
+					for (var c in data.registrodecita[data.registrodecita.length-1].mediciones.cirfunferencias) {
+						console.log(data.registrodecita[data.registrodecita.length-1].mediciones.cirfunferencias[c])
+						this.circunferencia[i].value = data.registrodecita[data.registrodecita.length-1].mediciones.cirfunferencias[c];
 						i++;
 					}
-					//console.log(this.pliegues);
-
-				});
+				})
 		});
 		//console.log(this.userData.idCita);
 		/*this.userProvider.getAppointmentRegisterData(this.userData.idCita)

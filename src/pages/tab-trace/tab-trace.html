@@ -38,7 +38,7 @@
         Peso
       </ion-label>
       <ion-note item-end>
-        {{peso}}
+        {{peso || 'Sin registro'}}
       </ion-note>
     </ion-item>
     <ion-item >
@@ -46,7 +46,7 @@
         Talla
       </ion-label>
       <ion-note item-end>
-        {{tipo || 'Sin registro'}}
+        {{talla || 'Sin registro'}}
       </ion-note>
     </ion-item>
     <br>

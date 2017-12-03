@@ -102,7 +102,7 @@ export class BookingPage {
 				.map(res => res.json())
 				.subscribe(data => {
 					this.appointment_obj = data.appointment[0];
-					this.appointment_obj.fecha_moment = this.moment(this.appointment_obj.fecha).format('LLL');
+					this.appointment_obj.fecha_moment = this.moment(this.appointment_obj.fecha.replace('.000Z','-0700')).format('LLL');
 					this.appointment = undefined;
 				});
 		});
