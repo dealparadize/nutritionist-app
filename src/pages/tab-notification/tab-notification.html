@@ -33,13 +33,13 @@
     <div *ngSwitchCase="'notification'">
       <ion-list>
 
-        <ion-list-header>Hoy</ion-list-header>
+        <!-- <ion-list-header>Hoy</ion-list-header> -->
 
         <ion-item *ngFor="let notification of notifications">
-          <ion-icon name="information-circle" item-start></ion-icon>
-          <h2>{{notification.title}}</h2>
-          <p>{{notification.subtitle}}</p>
-          <ion-note item-end>{{notification.hour}}</ion-note>
+          <ion-icon name="disc" item-start></ion-icon>
+          <h2>{{notification.titulo}}</h2>
+          <p>{{notification.cuerpo}}</p>
+          <!-- <ion-note item-end>{{general.hour}}</ion-note> -->
         </ion-item>
       </ion-list>
 

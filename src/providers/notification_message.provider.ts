@@ -26,9 +26,13 @@ export class NotificationMessageProvider {
     ) {
 
     }
-    
-    getMessages(data:any): Observable<any>{
-        return this.api.get('/messageByUser/'+data);
+
+    getMessages(data: any): Observable<any> {
+        return this.api.get('/messageByUser/' + data);
+    }
+
+    getGeneralMessages() {
+        return this.api.get('/generalMessage/');
     }
 
 }
