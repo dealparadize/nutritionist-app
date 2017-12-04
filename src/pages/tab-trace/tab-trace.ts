@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from "../../providers/user.provider";
+import { LocalNotifications } from '@ionic-native/local-notifications';
 /**
  * Generated class for the TabTracePage page.
  *
@@ -40,7 +41,7 @@ export class TabTracePage {
 		
 	items: Array<any> = [];
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public userProvider: UserProvider) {
+	constructor(public navCtrl: NavController, public localNotifications: LocalNotifications,public navParams: NavParams, public userProvider: UserProvider) {
 	}
 
 	openChart() {
@@ -48,6 +49,12 @@ export class TabTracePage {
 	}
 
 	ionViewDidLoad() {
+		this.localNotifications.schedule({
+			text: 'Alarm has expired!',
+			at: new Date(new Date().getTime() + 6000),
+			//sound: isAndroid ? 'file://sound.mp3': 'file://beep.caf',
+			data: { message : 'json containing app-specific information to be posted when alarm triggers' }
+		 });
 		console.log('ionViewDidLoad TabTracePage');
 		let obj: { name: "", value: "" };
 		this.userProvider.getUser().then(datos => {

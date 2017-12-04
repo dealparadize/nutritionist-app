@@ -8,13 +8,14 @@ import { DatePicker } from '@ionic-native/date-picker';
 import { Chart } from 'chart.js';
 import { OneSignal } from '@ionic-native/onesignal';
 import { MyApp } from './app.component';
-
+import { LocalNotifications } from '@ionic-native/local-notifications';
 import { HttpModule } from "@angular/http";
 import { IonicStorageModule } from '@ionic/storage';
 
 import { ApiProvider } from "../providers/api.provider";
 import { UserProvider } from "../providers/user.provider";
 import { MessageProvider } from "../providers/message.provider";
+import { MenuProvider } from "../providers/menu.provider";
 import { NotificationMessageProvider } from "../providers/notification_message.provider";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
@@ -41,6 +42,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
     ApiProvider,
     UserProvider,
     MessageProvider,
+    MenuProvider,
+    LocalNotifications,
     NotificationMessageProvider,
     Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
