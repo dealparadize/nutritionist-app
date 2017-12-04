@@ -38,14 +38,14 @@
         </ion-label>
       </ion-item-divider>
 
-      <ion-item *ngFor="let food of group.foods">
+      <ion-item *ngFor="let food of group.foods[0].ingred">
         <button ion-item>
               <!-- <ion-icon name="happy" item-left></ion-icon>             -->
               <ion-avatar item-start>
                   <!-- <img src="assets/img/food.jpg"> -->
                   <img src="{{food.img}}">
               </ion-avatar>
-              <h3>{{food.foodname}}</h3>
+              <h3>{{food.name}}</h3>
               <p>
                 {{food.ingred.quantity}}{{food.ingred.unit}} 
                 -
