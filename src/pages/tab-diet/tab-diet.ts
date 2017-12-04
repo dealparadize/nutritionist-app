@@ -167,7 +167,8 @@ export class TabDietPage {
 						
 						
 					}
-					//console.log(obj)
+					console.log(obj)
+					this.groups.push(obj);
 					
 				});
 		});
