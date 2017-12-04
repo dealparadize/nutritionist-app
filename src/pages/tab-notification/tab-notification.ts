@@ -28,26 +28,9 @@ export class TabNotificationPage {
   ) {
     this.segment = "notification";
 
-    this.notifications = [
-      {
-        title: "Recordatorio de desayuno",
-        subtitle: "Desayunar huevito con catsun, yogurt y pan",
-        hour: "08:00"
-      },
-      {
-        title: "Recordatorio de comida",
-        subtitle: "Comer pollo a la plancha y arroz",
-        hour: "12:00"
-      },
-      {
-        title: "Recordatorio de merienda",
-        subtitle: "",
-        hour: "15:00"
-      },
-    ];
+    this.notifications = [];
 
-    this.generals = [
-    ];
+    this.generals = [];
   }
 
   ionViewDidLoad() {
@@ -55,14 +38,25 @@ export class TabNotificationPage {
   }
 
   ionViewWillEnter() {
+    this.load();
+  }
+
+  load() {
     this.userProvider.getUser().then(datos => {
       this.notificationMsj.getMessages(datos.user._id)
         .do(res => { console.log(res.json()) })
         .map(res => res.json())
         .subscribe(data => {
-          this.generals = data.mensajes;
+          this.notifications = data.mensajes;
         });
     });
+
+    this.notificationMsj.getGeneralMessages()
+      .do(res => { console.log(res.json()) })
+      .map(res => res.json())
+      .subscribe(data => {
+        this.generals = data.MensajesGenerales;
+      });
   }
 
 }

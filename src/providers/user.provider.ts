@@ -84,13 +84,17 @@ export class UserProvider {
         return this.api.post('/patient/', data);
     };
 
-    updateAppointment(id: any, data: any): Observable<any> {
-        return this.api.put('/appointment/' + id, data);
-    };
 
     logout(): void {
-        // this.storage.remove('');
         this.events.publish('user:logout');
+    };
+
+    /**
+     * appointment
+     */
+
+    updateAppointment(id: any, data: any): Observable<any> {
+        return this.api.put('/appointment/' + id, data);
     };
 
     getAppointmentRegisterData(data: any): Observable<any> {
@@ -101,17 +105,15 @@ export class UserProvider {
         return this.api.get('/apointmentRegister/firstLast/user/' + data);
     }
 
-    //endpoint para crear una cita
     createAppointment(data: any): Observable<any> {
         return this.api.post('/appointment/', data);
     };
 
-    //endpoint para recuperar las citas de un día
     getAppointmentsForDate(data: any): Observable<any> {
         return this.api.get('/appointmentForDate/' + data);
     };
 
-    getAppointmentById (id: any): Observable<any> {
+    getAppointmentById(id: any): Observable<any> {
         return this.api.get('/appointment/' + id);
     };
 }

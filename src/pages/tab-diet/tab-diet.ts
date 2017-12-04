@@ -122,57 +122,70 @@ export class TabDietPage {
 			}
 		]*/
 	}
-	getObjectMenu():any{
-		let obj={	
-			time:"",
-			foods:[
+	getObjectMenu(): any {
+		let obj = {
+			time: "",
+			foods: [
 				{
-					name:"",
-					quantity:"",
-					unit:"",
+					name: "",
+					quantity: "",
+					unit: "",
 				}
-			]	
+			]
 		}
 		return obj;
 	}
+
+	ionViewWillEnter() {
+		this.load();
+	}
+
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad TabDietPage');
+
+	}
+
+	load() {
 		this.userProvider.getUser().then(datos => {
 			//console.log(datos.user.menu_asignado[0])
-			let obj={	
-				time:"",
-				foods:[]	
+			let obj = {
+				time: "",
+				foods: []
 			};
+			
 			this.menuProvider.getUserMenu(datos.user.menu_asignado[0])
 				.do(res => console.log())
 				.map(res => res.json())
 				.subscribe(data => {
-					let f={	foodname:"",
-						ingred:[]
+					let f = {
+						foodname: "",
+						ingred: []
 					};
-					obj.time="Cena"
-					for (let i=0;i<=data.menu_user[0].cena.idMenu.comidas.length-1;i++){
-						f.foodname=data.menu_user[0].cena.idMenu.comidas[i].nombre;
-						for(let j=0;j<=data.menu_user[0].cena.idMenu.comidas[i].ingred.length-1;j++){
+					obj.time = "Cena"
+					for (let i = 0; i <= data.menu_user[0].cena.idMenu.comidas.length - 1; i++) {
+						f.foodname = data.menu_user[0].cena.idMenu.comidas[i].nombre;
+						for (let j = 0; j <= data.menu_user[0].cena.idMenu.comidas[i].ingred.length - 1; j++) {
 							f.ingred.push({
-								name : data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.nombre,
-								quantity : data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.porcion,
-								unit : data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.unitMeasure
-							});							
+								name: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.nombre,
+								quantity: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.porcion,
+								unit: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.unitMeasure
+							});
 						}
 						console.log(f);
 						obj.foods.push(f);
-						f.ingred=[];
-						f.foodname="";
-						
-						
+						f.ingred = [];
+						f.foodname = "";
 					}
+<<<<<<< HEAD
 					console.log(obj)
 					this.groups.push(obj);
 					
+=======
+					//console.log(obj)
+
+>>>>>>> b7a4d3927ded35a1c2b665611196e57ca4098431
 				});
 		});
-
 	}
 
 	chooseMenu() {

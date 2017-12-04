@@ -12,7 +12,7 @@ export interface Tab {
   title: string,
   component: string,
   icon: string,
-  badge ?: number
+  badge?: number
 };
 
 
@@ -22,12 +22,12 @@ export interface Tab {
   templateUrl: 'tabs.html',
 })
 export class TabsPage {
-  
+
   tabs: Array<Tab> = [
     { title: 'TAB_DIET', component: 'TabDietPage', icon: 'home' },
     { title: 'TAB_TRACE', component: 'TabTracePage', icon: 'walk' },
-    { title: 'TAB_NOTIFICATION',    component: 'TabNotificationPage',    icon: 'notifications', badge: 2 },
-    { title: 'TAB_CONFIGURATION',  component: 'TabConfigurationPage',  icon: 'cog' },
+    { title: 'TAB_NOTIFICATION', component: 'TabNotificationPage', icon: 'notifications', /*badge: 2*/ },
+    { title: 'TAB_CONFIGURATION', component: 'TabConfigurationPage', icon: 'cog' },
   ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
