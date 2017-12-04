@@ -141,38 +141,33 @@ export class TabDietPage {
 			//console.log(datos.user.menu_asignado[0])
 			let obj={	
 				time:"",
-				foods:[
-					
-				]	
+				foods:[]	
 			};
 			this.menuProvider.getUserMenu(datos.user.menu_asignado[0])
 				.do(res => console.log())
 				.map(res => res.json())
 				.subscribe(data => {
 					let f={	foodname:"",
-						ingred:{
-							name:"",
-							quantity:"",
-							unit:""
-						}
+						ingred:[]
 					};
-					//console.log(data.menu_user[0]);
 					obj.time="Cena"
-					//	console.log(data.menu_user[0].cena.idMenu.comidas[1].ingred.length);
 					for (let i=0;i<=data.menu_user[0].cena.idMenu.comidas.length-1;i++){
 						f.foodname=data.menu_user[0].cena.idMenu.comidas[i].nombre;
 						for(let j=0;j<=data.menu_user[0].cena.idMenu.comidas[i].ingred.length-1;j++){
-							f.ingred.name=data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.nombre;
-							f.ingred.quantity=data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.porcion;
-							f.ingred.unit=data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.unitMeasure;
-							console.log(f);
-							obj.foods.push(f);
-							f.ingred.name="";
-							f.ingred.quantity="";
-							f.ingred.unit="";
+							f.ingred.push({
+								name : data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.nombre,
+								quantity : data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.porcion,
+								unit : data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.unitMeasure
+							});							
 						}
+						console.log(f);
+						obj.foods.push(f);
+						f.ingred=[];
+						f.foodname="";
+						
+						
 					}
-					console.log(obj)
+					//console.log(obj)
 					
 				});
 		});
