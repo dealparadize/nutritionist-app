@@ -69,7 +69,7 @@ export class TabTracePage {
 				.do(res => console.log(res.json()))
 				.map(res => res.json())
 				.subscribe(data => {
-					console.log(data);
+					console.log(data.registrodecita[2]);
 					this.peso = data.registrodecita[data.registrodecita.length - 1].peso;
 					this.talla = data.registrodecita[data.registrodecita.length - 1].talla;
 

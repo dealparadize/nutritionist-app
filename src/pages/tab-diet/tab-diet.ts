@@ -27,100 +27,6 @@ export class TabDietPage {
 		public menuProvider: MenuProvider
 	) {
 
-		/*this.groups = [
-			{
-				time: "Desayuno",
-				foods: [
-					{
-						name: "Huevito con catsun",
-						quantity: "200",
-						unit: "gr",
-						mode: "Guisado",
-						img: "https://source.unsplash.com/featured/?{food},{egg}"
-					},
-					{
-						name: "Fresa",
-						quantity: "100",
-						unit: "gr",
-						mode: "Natural",
-						img: "https://source.unsplash.com/featured/?{food},{strawberry}"
-					},
-					{
-						name: "Pan",
-						quantity: "300",
-						unit: "gr",
-						mode: "Tostado",
-						img: "https://source.unsplash.com/featured/?{food},{bread}"
-					}
-
-				]
-			},
-			{
-				time: "Colación",
-				foods: [
-					{
-						name: "Zanahoria",
-						quantity: "50",
-						unit: "gr",
-						mode: "Natural",
-						img: "https://source.unsplash.com/featured/?{food},{carrot}"
-					},
-					{
-						name: "Yogurt",
-						quantity: "200",
-						unit: "gr",
-						mode: "Natural",
-						img: "https://source.unsplash.com/featured/?{food},{yogurt}"
-					}
-
-				]
-			},
-			{
-				time: "Comida",
-				foods: [
-					{
-						name: "Pechuga",
-						quantity: "400",
-						unit: "gr",
-						mode: "A la plancha",
-						img: "https://source.unsplash.com/featured/?{food},{chicken}"
-					},
-					{
-						name: "Lechuga",
-						quantity: "200",
-						unit: "gr",
-						mode: "Natural",
-						img: "https://source.unsplash.com/featured/?{food},{green}"
-					},
-					{
-						name: "Arroz",
-						quantity: "300",
-						unit: "gr",
-						mode: "Guisado",
-						img: "https://source.unsplash.com/featured/?{food},{rice}"
-					}
-				]
-			},
-			{
-				time: "Cena",
-				foods: [
-					{
-						name: "Huevito con catsun",
-						quantity: "200",
-						unit: "gr",
-						mode: "Guisado",
-						img: "https://source.unsplash.com/featured/?{food},{egg}"
-					},
-					{
-						name: "Platano",
-						quantity: "100",
-						unit: "gr",
-						mode: "Natural",
-						img: "https://source.unsplash.com/featured/?{food},{banana}"
-					}
-				]
-			}
-		]*/
 	}
 	getObjectMenu(): any {
 		let obj = {
@@ -147,8 +53,7 @@ export class TabDietPage {
 
 	load() {
 		this.userProvider.getUser().then(datos => {
-			//console.log(datos.user.menu_asignado[0])
-			let obj = {
+			var obj = {
 				time: "",
 				foods: []
 			};
@@ -157,33 +62,83 @@ export class TabDietPage {
 				.do(res => console.log())
 				.map(res => res.json())
 				.subscribe(data => {
-					let f = {
-						foodname: "",
-						ingred: []
+					
+					obj.time = "Desayuno"
+					for (let i = 0; i <= data.menu_user[0].desayuno.idMenu.comidas.length - 1; i++) {
+						var f = {
+							foodname: "",
+							_id: data.menu_user[0].desayuno.idMenu.comidas[i]._id,
+							ingred: []
+						};
+						f.foodname = data.menu_user[0].desayuno.idMenu.comidas[i].nombre;
+						for (let j = 0; j <= data.menu_user[0].desayuno.idMenu.comidas[i].ingred.length - 1; j++) {
+							f.ingred[j]={
+								name: data.menu_user[0].desayuno.idMenu.comidas[i].ingred[j]._id.nombre,
+								quantity: data.menu_user[0].desayuno.idMenu.comidas[i].ingred[j]._id.porcion,
+								unit: data.menu_user[0].desayuno.idMenu.comidas[i].ingred[j]._id.unitMeasure
+							};
+							
+						}
+						obj.foods[i]=f;
+					}
+					this.groups.push(obj);
+					obj = {
+						time: "",
+						foods: []
 					};
+					///////////////////////////////////////////////////////////////////////////////
+					obj.time = "Comidia"
+					for (let i = 0; i <= data.menu_user[0].comida.idMenu.comidas.length - 1; i++) {
+						var f = {
+							foodname: "",
+							_id: data.menu_user[0].comida.idMenu.comidas[i]._id,
+							ingred: []
+						};
+						f.foodname = data.menu_user[0].comida.idMenu.comidas[i].nombre;
+						for (let j = 0; j <= data.menu_user[0].comida.idMenu.comidas[i].ingred.length - 1; j++) {
+							f.ingred[j]={
+								name: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.nombre,
+								quantity: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.porcion,
+								unit: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.unitMeasure
+							};
+							
+						}
+						obj.foods[i]=f;
+					}
+					this.groups.push(obj);
+					obj = {
+						time: "",
+						foods: []
+					};
+					///////////////////////////////////////////////////////////////////////////////
 					obj.time = "Cena"
 					for (let i = 0; i <= data.menu_user[0].cena.idMenu.comidas.length - 1; i++) {
+						var f = {
+							foodname: "",
+							_id: data.menu_user[0].cena.idMenu.comidas[i]._id,
+							ingred: []
+						};
 						f.foodname = data.menu_user[0].cena.idMenu.comidas[i].nombre;
 						for (let j = 0; j <= data.menu_user[0].cena.idMenu.comidas[i].ingred.length - 1; j++) {
-							f.ingred.push({
+							f.ingred[j]={
 								name: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.nombre,
 								quantity: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.porcion,
 								unit: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.unitMeasure
-							});
+							};
+							
 						}
-						console.log(f);
-						obj.foods.push(f);
-						f.ingred = [];
-						f.foodname = "";
+						obj.foods[i]=f;
 					}
-<<<<<<< HEAD
-					console.log(obj)
 					this.groups.push(obj);
+					obj = {
+						time: "",
+						foods: []
+					};
 					
-=======
-					//console.log(obj)
 
->>>>>>> b7a4d3927ded35a1c2b665611196e57ca4098431
+
+					console.log(this.groups);
+
 				});
 		});
 	}
