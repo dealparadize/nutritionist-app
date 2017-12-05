@@ -79,9 +79,9 @@ export class TabTracePage {
 						i++;
 					}
 					i = 0;
-					for (var c in data.registrodecita[data.registrodecita.length - 1].mediciones.cirfunferencias) {
-						console.log(data.registrodecita[data.registrodecita.length - 1].mediciones.cirfunferencias[c])
-						this.circunferencia[i].value = data.registrodecita[data.registrodecita.length - 1].mediciones.cirfunferencias[c];
+					for (var c in data.registrodecita[data.registrodecita.length - 1].mediciones.circunferencias) {
+						console.log(data.registrodecita[data.registrodecita.length - 1].mediciones.circunferencias[c])
+						this.circunferencia[i].value = data.registrodecita[data.registrodecita.length - 1].mediciones.circunferencias[c];
 						i++;
 					}
 				})

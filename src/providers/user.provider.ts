@@ -104,6 +104,9 @@ export class UserProvider {
     getFirstLastAppointmentRegisterData(data: any): Observable<any> {
         return this.api.get('/apointmentRegister/firstLast/user/' + data);
     }
+    getFormuleData(data: any): Observable<any>{
+        return this.api.get('/getFatMass/'+data);
+    }
 
     createAppointment(data: any): Observable<any> {
         return this.api.post('/appointment/', data);

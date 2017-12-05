@@ -87,7 +87,31 @@ export class TabDietPage {
 						foods: []
 					};
 					///////////////////////////////////////////////////////////////////////////////
-					obj.time = "Comidia"
+					obj.time = "Colacion1"
+					for (let i = 0; i <= data.menu_user[0].colacion1.idMenu.comidas.length - 1; i++) {
+						var f = {
+							foodname: "",
+							_id: data.menu_user[0].colacion1.idMenu.comidas[i]._id,
+							ingred: []
+						};
+						f.foodname = data.menu_user[0].colacion1.idMenu.comidas[i].nombre;
+						for (let j = 0; j <= data.menu_user[0].colacion1.idMenu.comidas[i].ingred.length - 1; j++) {
+							f.ingred[j]={
+								name: data.menu_user[0].colacion1.idMenu.comidas[i].ingred[j]._id.nombre,
+								quantity: data.menu_user[0].colacion1.idMenu.comidas[i].ingred[j]._id.porcion,
+								unit: data.menu_user[0].colacion1.idMenu.comidas[i].ingred[j]._id.unitMeasure
+							};
+							
+						}
+						obj.foods[i]=f;
+					}
+					this.groups.push(obj);
+					obj = {
+						time: "",
+						foods: []
+					};
+					///////////////////////////////////////////////////////////////////////////////
+					obj.time = "Comida"
 					for (let i = 0; i <= data.menu_user[0].comida.idMenu.comidas.length - 1; i++) {
 						var f = {
 							foodname: "",
@@ -100,6 +124,30 @@ export class TabDietPage {
 								name: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.nombre,
 								quantity: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.porcion,
 								unit: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.unitMeasure
+							};
+							
+						}
+						obj.foods[i]=f;
+					}
+					this.groups.push(obj);
+					obj = {
+						time: "",
+						foods: []
+					};
+					///////////////////////////////////////////////////////////////////////////////
+					obj.time = "Colacion2"
+					for (let i = 0; i <= data.menu_user[0].colacion2.idMenu.comidas.length - 1; i++) {
+						var f = {
+							foodname: "",
+							_id: data.menu_user[0].colacion2.idMenu.comidas[i]._id,
+							ingred: []
+						};
+						f.foodname = data.menu_user[0].colacion2.idMenu.comidas[i].nombre;
+						for (let j = 0; j <= data.menu_user[0].colacion2.idMenu.comidas[i].ingred.length - 1; j++) {
+							f.ingred[j]={
+								name: data.menu_user[0].colacion2.idMenu.comidas[i].ingred[j]._id.nombre,
+								quantity: data.menu_user[0].colacion2.idMenu.comidas[i].ingred[j]._id.porcion,
+								unit: data.menu_user[0].colacion2.idMenu.comidas[i].ingred[j]._id.unitMeasure
 							};
 							
 						}
