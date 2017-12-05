@@ -6,55 +6,56 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
 
-    <ion-buttons end>
-      <button ion-button color="secondary" (click)="openDateChooser()" full><ion-icon name="calendar"></ion-icon></button>
-    </ion-buttons>
+		<ion-buttons end>
+			<button ion-button color="secondary" (click)="openDateChooser()" full>
+				<ion-icon name="calendar"></ion-icon>
+			</button>
+		</ion-buttons>
 
-    <ion-title>
-      <div text-center>
-        Hoy
-      </div>
-    </ion-title>
-  </ion-navbar>
+		<ion-title>
+			<div text-center>
+				Hoy
+			</div>
+		</ion-title>
+	</ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
 
-  <!-- <ion-label color="danger">Dejaremos esto al último profe, perdón y gracias xd</ion-label> -->
-  <ion-list>
+	<ion-label color="danger">Dejaremos esto al último profe, perdón y gracias xd</ion-label>
+	<ion-list>
 
-    <ion-item-group *ngFor="let group of groups">
+		<ion-item-group *ngFor="let group of groups">
 
-      <ion-item-divider sticky (click)="chooseMenu()">
-        <ion-label>
-          {{group.time}}
-        </ion-label>
-      </ion-item-divider>
+			<ion-item-divider sticky (click)="chooseMenu()">
+				<ion-label>
+					{{group.time}}
+				</ion-label>
+			</ion-item-divider>
 
-      <ion-item *ngFor="let food of group.foods">
-        <button ion-item>
-              <!-- <ion-icon name="happy" item-left></ion-icon>             -->
-              <ion-avatar item-start>
-                  <!-- <img src="assets/img/food.jpg"> -->
-                  <img src="{{food.img}}">
-              </ion-avatar>
-              <h3>{{food.name}}</h3>
-              <p>
-                {{food.quantity}}{{food.unit}} 
-                -
-                {{food.mode}} 
-              </p>
-            </button>
-      </ion-item>
+			<ion-item *ngFor="let food of group.foods">
+				<h2>{{food.foodname}}</h2>
+				<button *ngFor="let ingred of food.ingred" ion-item>
+					<!-- <ion-icon name="happy" item-left></ion-icon>             -->
+					<ion-avatar item-start>
+						<!-- <img src="assets/img/food.jpg"> -->
+						<img src="{{food.img}}">
+					</ion-avatar>
+					<h3>{{ingred.name}}</h3>
+					<p>
+						{{ingred.quantity}}{{ingred.unit}} - {{food.mode}}
+					</p>
+				</button>
+			</ion-item>
 
-    </ion-item-group>
+		</ion-item-group>
 
-  </ion-list>
+	</ion-list>
 </ion-content>

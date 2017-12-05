@@ -69,7 +69,7 @@ export class TabTracePage {
 				.do(res => console.log(res.json()))
 				.map(res => res.json())
 				.subscribe(data => {
-					console.log(data);
+					console.log(data.registrodecita[2]);
 					this.peso = data.registrodecita[data.registrodecita.length - 1].peso;
 					this.talla = data.registrodecita[data.registrodecita.length - 1].talla;
 
@@ -79,9 +79,9 @@ export class TabTracePage {
 						i++;
 					}
 					i = 0;
-					for (var c in data.registrodecita[data.registrodecita.length - 1].mediciones.cirfunferencias) {
-						console.log(data.registrodecita[data.registrodecita.length - 1].mediciones.cirfunferencias[c])
-						this.circunferencia[i].value = data.registrodecita[data.registrodecita.length - 1].mediciones.cirfunferencias[c];
+					for (var c in data.registrodecita[data.registrodecita.length - 1].mediciones.circunferencias) {
+						console.log(data.registrodecita[data.registrodecita.length - 1].mediciones.circunferencias[c])
+						this.circunferencia[i].value = data.registrodecita[data.registrodecita.length - 1].mediciones.circunferencias[c];
 						i++;
 					}
 				})
