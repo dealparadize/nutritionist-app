@@ -150,6 +150,7 @@ export class MyApp {
       this.userProvider.getUser()
         .then(user => {
           if (user) {
+            console.log("USER", user);
             this.user = user.user;
           }
         });
