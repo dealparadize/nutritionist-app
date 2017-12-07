@@ -17,7 +17,7 @@ import { UserProvider } from "../../providers/user.provider";
 export class TabDietPage {
 
 	groups: any = [];
-
+	dietDate: string;
 
 	constructor(
 		public navCtrl: NavController,
@@ -26,7 +26,7 @@ export class TabDietPage {
 		public userProvider: UserProvider,
 		public menuProvider: MenuProvider
 	) {
-
+		this.dietDate=new Date().toISOString().slice(0, 10);
 	}
 	getObjectMenu(): any {
 		let obj = {
@@ -62,25 +62,22 @@ export class TabDietPage {
 				.do(res => console.log())
 				.map(res => res.json())
 				.subscribe(data => {
-					
 					obj.time = "Desayuno"
-					for (let i = 0; i <= data.menu_user[0].desayuno.idMenu.comidas.length - 1; i++) {
-						var f = {
-							foodname: "",
-							_id: data.menu_user[0].desayuno.idMenu.comidas[i]._id,
-							ingred: []
+					var f = {
+						foodname: "",
+						_id: "",
+						ingred: []
+					};
+					f.foodname=data.menu_user[0].desayuno.idMenu.comidas[0].nombre;
+					f._id=data.menu_user[0].desayuno.idMenu.comidas[0]._id;
+					for (let j = 0; j <= data.menu_user[0].desayuno.idMenu.comidas[0].ingred.length - 1; j++) {
+						f.ingred[j]={
+							name: data.menu_user[0].desayuno.idMenu.comidas[0].ingred[j]._id.nombre,
+							quantity: data.menu_user[0].desayuno.idMenu.comidas[0].ingred[j]._id.porcion,
+							unit: data.menu_user[0].desayuno.idMenu.comidas[0].ingred[j]._id.unitMeasure
 						};
-						f.foodname = data.menu_user[0].desayuno.idMenu.comidas[i].nombre;
-						for (let j = 0; j <= data.menu_user[0].desayuno.idMenu.comidas[i].ingred.length - 1; j++) {
-							f.ingred[j]={
-								name: data.menu_user[0].desayuno.idMenu.comidas[i].ingred[j]._id.nombre,
-								quantity: data.menu_user[0].desayuno.idMenu.comidas[i].ingred[j]._id.porcion,
-								unit: data.menu_user[0].desayuno.idMenu.comidas[i].ingred[j]._id.unitMeasure
-							};
-							
-						}
-						obj.foods[i]=f;
 					}
+					obj.foods.push(f);
 					this.groups.push(obj);
 					obj = {
 						time: "",
@@ -88,24 +85,21 @@ export class TabDietPage {
 					};
 					///////////////////////////////////////////////////////////////////////////////
 					obj.time = "Colacion1"
-					console.log(data.menu_user[0].colacion1)
-					for (let i = 0; i <= data.menu_user[0].colacion1.idMenu.comidas.length - 1; i++) {
-						var f = {
-							foodname: "",
-							_id: data.menu_user[0].colacion1.idMenu.comidas[i]._id,
-							ingred: []
+					f = {
+						foodname: "",
+						_id: "",
+						ingred: []
+					};
+					f.foodname=data.menu_user[0].colacion1.idMenu.comidas[0].nombre;
+					f._id=data.menu_user[0].colacion1.idMenu.comidas[0]._id;
+					for (let j = 0; j <= data.menu_user[0].colacion1.idMenu.comidas[0].ingred.length - 1; j++) {
+						f.ingred[j]={
+							name: data.menu_user[0].colacion1.idMenu.comidas[0].ingred[j]._id.nombre,
+							quantity: data.menu_user[0].colacion1.idMenu.comidas[0].ingred[j]._id.porcion,
+							unit: data.menu_user[0].colacion1.idMenu.comidas[0].ingred[j]._id.unitMeasure
 						};
-						f.foodname = data.menu_user[0].colacion1.idMenu.comidas[i].nombre;
-						for (let j = 0; j <= data.menu_user[0].colacion1.idMenu.comidas[i].ingred.length - 1; j++) {
-							f.ingred[j]={
-								name: data.menu_user[0].colacion1.idMenu.comidas[i].ingred[j]._id.nombre,
-								quantity: data.menu_user[0].colacion1.idMenu.comidas[i].ingred[j]._id.porcion,
-								unit: data.menu_user[0].colacion1.idMenu.comidas[i].ingred[j]._id.unitMeasure
-							};
-							
-						}
-						obj.foods[i]=f;
 					}
+					obj.foods.push(f);
 					this.groups.push(obj);
 					obj = {
 						time: "",
@@ -113,23 +107,21 @@ export class TabDietPage {
 					};
 					///////////////////////////////////////////////////////////////////////////////
 					obj.time = "Comida"
-					for (let i = 0; i <= data.menu_user[0].comida.idMenu.comidas.length - 1; i++) {
-						var f = {
-							foodname: "",
-							_id: data.menu_user[0].comida.idMenu.comidas[i]._id,
-							ingred: []
+					f = {
+						foodname: "",
+						_id: "",
+						ingred: []
+					};
+					f.foodname=data.menu_user[0].comida.idMenu.comidas[0].nombre;
+					f._id=data.menu_user[0].comida.idMenu.comidas[0]._id;
+					for (let j = 0; j <= data.menu_user[0].comida.idMenu.comidas[0].ingred.length - 1; j++) {
+						f.ingred[j]={
+							name: data.menu_user[0].comida.idMenu.comidas[0].ingred[j]._id.nombre,
+							quantity: data.menu_user[0].comida.idMenu.comidas[0].ingred[j]._id.porcion,
+							unit: data.menu_user[0].comida.idMenu.comidas[0].ingred[j]._id.unitMeasure
 						};
-						f.foodname = data.menu_user[0].comida.idMenu.comidas[i].nombre;
-						for (let j = 0; j <= data.menu_user[0].comida.idMenu.comidas[i].ingred.length - 1; j++) {
-							f.ingred[j]={
-								name: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.nombre,
-								quantity: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.porcion,
-								unit: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.unitMeasure
-							};
-							
-						}
-						obj.foods[i]=f;
 					}
+					obj.foods.push(f);
 					this.groups.push(obj);
 					obj = {
 						time: "",
@@ -137,23 +129,21 @@ export class TabDietPage {
 					};
 					///////////////////////////////////////////////////////////////////////////////
 					obj.time = "Colacion2"
-					for (let i = 0; i <= data.menu_user[0].colacion2.idMenu.comidas.length - 1; i++) {
-						var f = {
-							foodname: "",
-							_id: data.menu_user[0].colacion2.idMenu.comidas[i]._id,
-							ingred: []
+					f = {
+						foodname: "",
+						_id: "",
+						ingred: []
+					};
+					f.foodname=data.menu_user[0].colacion2.idMenu.comidas[0].nombre;
+					f._id=data.menu_user[0].colacion2.idMenu.comidas[0]._id;
+					for (let j = 0; j <= data.menu_user[0].colacion2.idMenu.comidas[0].ingred.length - 1; j++) {
+						f.ingred[j]={
+							name: data.menu_user[0].colacion2.idMenu.comidas[0].ingred[j]._id.nombre,
+							quantity: data.menu_user[0].colacion2.idMenu.comidas[0].ingred[j]._id.porcion,
+							unit: data.menu_user[0].colacion2.idMenu.comidas[0].ingred[j]._id.unitMeasure
 						};
-						f.foodname = data.menu_user[0].colacion2.idMenu.comidas[i].nombre;
-						for (let j = 0; j <= data.menu_user[0].colacion2.idMenu.comidas[i].ingred.length - 1; j++) {
-							f.ingred[j]={
-								name: data.menu_user[0].colacion2.idMenu.comidas[i].ingred[j]._id.nombre,
-								quantity: data.menu_user[0].colacion2.idMenu.comidas[i].ingred[j]._id.porcion,
-								unit: data.menu_user[0].colacion2.idMenu.comidas[i].ingred[j]._id.unitMeasure
-							};
-							
-						}
-						obj.foods[i]=f;
 					}
+					obj.foods.push(f);
 					this.groups.push(obj);
 					obj = {
 						time: "",
@@ -161,40 +151,33 @@ export class TabDietPage {
 					};
 					///////////////////////////////////////////////////////////////////////////////
 					obj.time = "Cena"
-					for (let i = 0; i <= data.menu_user[0].cena.idMenu.comidas.length - 1; i++) {
-						var f = {
-							foodname: "",
-							_id: data.menu_user[0].cena.idMenu.comidas[i]._id,
-							ingred: []
+					f = {
+						foodname: "",
+						_id: "",
+						ingred: []
+					};
+					f.foodname=data.menu_user[0].cena.idMenu.comidas[0].nombre;
+					f._id=data.menu_user[0].cena.idMenu.comidas[0]._id;
+					for (let j = 0; j <= data.menu_user[0].cena.idMenu.comidas[0].ingred.length - 1; j++) {
+						f.ingred[j]={
+							name: data.menu_user[0].cena.idMenu.comidas[0].ingred[j]._id.nombre,
+							quantity: data.menu_user[0].cena.idMenu.comidas[0].ingred[j]._id.porcion,
+							unit: data.menu_user[0].cena.idMenu.comidas[0].ingred[j]._id.unitMeasure
 						};
-						f.foodname = data.menu_user[0].cena.idMenu.comidas[i].nombre;
-						for (let j = 0; j <= data.menu_user[0].cena.idMenu.comidas[i].ingred.length - 1; j++) {
-							f.ingred[j]={
-								name: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.nombre,
-								quantity: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.porcion,
-								unit: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.unitMeasure
-							};
-							
-						}
-						obj.foods[i]=f;
 					}
+					obj.foods.push(f);
 					this.groups.push(obj);
 					obj = {
 						time: "",
 						foods: []
 					};
-					
-
-
-					//console.log(this.groups);
-
 				});
 		});
 	}
 
-	chooseMenu(timeFood) {
-		console.log(timeFood)
-		let myDataChooserModal = this.modalCtrl.create('MenuChooserModalPage', { data: timeFood });
+	chooseMenu(foodType) {
+		console.log(foodType)
+		let myDataChooserModal = this.modalCtrl.create('MenuChooserModalPage', { data: foodType });
 		myDataChooserModal.onDidDismiss(data => {
 			console.log(data);
 		});
@@ -202,9 +185,9 @@ export class TabDietPage {
 	}
 
 	openDateChooser() {
-		let myDataChooserModal = this.modalCtrl.create('DateChooserModalPage', { data: { pickMode: 'single' } });
+		let myDataChooserModal = this.modalCtrl.create('DateChooserModalPage', { data: { date: this.dietDate, to: new Date(2030, 0, 1), from: new Date() } });
 		myDataChooserModal.onDidDismiss(data => {
-			console.log(data);
+			console.log(this.dietDate)
 		});
 		myDataChooserModal.present();
 	}
