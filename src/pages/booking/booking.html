@@ -22,8 +22,8 @@
 	<ion-list>
 		<ion-item >
 			<ion-icon name="calendar"></ion-icon>
-				Cita:
-			<ion-badge color="primary" item-end>{{this?.appointment_obj?.fecha_moment || 'Sin fecha'}}</ion-badge>
+				Cita
+			<ion-badge color="primary" item-end large>{{this?.appointment_obj?.fecha_moment || 'Sin fecha'}}</ion-badge>
 		</ion-item>
 		
 		<ion-item *ngIf="this?.appointment_obj?.status=='cancelada'">

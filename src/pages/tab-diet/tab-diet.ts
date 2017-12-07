@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { MenuProvider } from "../../providers/menu.provider";
 import { UserProvider } from "../../providers/user.provider";
+
+import * as moment from 'moment';
 /**
  * Generated class for the TabDietPage page.
  *
@@ -15,9 +17,10 @@ import { UserProvider } from "../../providers/user.provider";
 	templateUrl: 'tab-diet.html',
 })
 export class TabDietPage {
+	moment = moment;
 
 	groups: any = [];
-	dietDate: string;
+	dietDate: any;
 
 	constructor(
 		public navCtrl: NavController,
@@ -26,8 +29,11 @@ export class TabDietPage {
 		public userProvider: UserProvider,
 		public menuProvider: MenuProvider
 	) {
-		this.dietDate=new Date().toISOString().slice(0, 10);
+		this.dietDate = new Date().toISOString().slice(0, 10);
+		this.moment.locale('es');
+		// this.dietDate = this.moment();
 	}
+
 	getObjectMenu(): any {
 		let obj = {
 			time: "",
@@ -57,7 +63,7 @@ export class TabDietPage {
 				time: "",
 				foods: []
 			};
-			
+
 			this.menuProvider.getUserMenu(datos.user.menu_asignado[0])
 				.do(res => console.log())
 				.map(res => res.json())
@@ -68,15 +74,17 @@ export class TabDietPage {
 						_id: "",
 						ingred: []
 					};
-					f.foodname=data.menu_user[0].desayuno.idMenu.comidas[0].nombre;
-					f._id=data.menu_user[0].desayuno.idMenu.comidas[0]._id;
+					f.foodname = data.menu_user[0].desayuno.idMenu.comidas[0].nombre;
+					f._id = data.menu_user[0].desayuno.idMenu.comidas[0]._id;
 					for (let j = 0; j <= data.menu_user[0].desayuno.idMenu.comidas[0].ingred.length - 1; j++) {
-						f.ingred[j]={
+						f.ingred[j] = {
 							name: data.menu_user[0].desayuno.idMenu.comidas[0].ingred[j]._id.nombre,
+							img: `https://source.unsplash.com/featured/?` + data.menu_user[0].desayuno.idMenu.comidas[0].ingred[j]._id.nombre,
 							quantity: data.menu_user[0].desayuno.idMenu.comidas[0].ingred[j]._id.porcion,
 							unit: data.menu_user[0].desayuno.idMenu.comidas[0].ingred[j]._id.unitMeasure
 						};
 					}
+					console.log("desayuno", f);
 					obj.foods.push(f);
 					this.groups.push(obj);
 					obj = {
@@ -90,11 +98,12 @@ export class TabDietPage {
 						_id: "",
 						ingred: []
 					};
-					f.foodname=data.menu_user[0].colacion1.idMenu.comidas[0].nombre;
-					f._id=data.menu_user[0].colacion1.idMenu.comidas[0]._id;
+					f.foodname = data.menu_user[0].colacion1.idMenu.comidas[0].nombre;
+					f._id = data.menu_user[0].colacion1.idMenu.comidas[0]._id;
 					for (let j = 0; j <= data.menu_user[0].colacion1.idMenu.comidas[0].ingred.length - 1; j++) {
-						f.ingred[j]={
+						f.ingred[j] = {
 							name: data.menu_user[0].colacion1.idMenu.comidas[0].ingred[j]._id.nombre,
+							img: `https://source.unsplash.com/featured/?` + data.menu_user[0].colacion1.idMenu.comidas[0].ingred[j]._id.nombre,
 							quantity: data.menu_user[0].colacion1.idMenu.comidas[0].ingred[j]._id.porcion,
 							unit: data.menu_user[0].colacion1.idMenu.comidas[0].ingred[j]._id.unitMeasure
 						};
@@ -112,11 +121,12 @@ export class TabDietPage {
 						_id: "",
 						ingred: []
 					};
-					f.foodname=data.menu_user[0].comida.idMenu.comidas[0].nombre;
-					f._id=data.menu_user[0].comida.idMenu.comidas[0]._id;
+					f.foodname = data.menu_user[0].comida.idMenu.comidas[0].nombre;
+					f._id = data.menu_user[0].comida.idMenu.comidas[0]._id;
 					for (let j = 0; j <= data.menu_user[0].comida.idMenu.comidas[0].ingred.length - 1; j++) {
-						f.ingred[j]={
+						f.ingred[j] = {
 							name: data.menu_user[0].comida.idMenu.comidas[0].ingred[j]._id.nombre,
+							img: `https://source.unsplash.com/featured/?` + data.menu_user[0].comida.idMenu.comidas[0].ingred[j]._id.nombre,
 							quantity: data.menu_user[0].comida.idMenu.comidas[0].ingred[j]._id.porcion,
 							unit: data.menu_user[0].comida.idMenu.comidas[0].ingred[j]._id.unitMeasure
 						};
@@ -134,11 +144,12 @@ export class TabDietPage {
 						_id: "",
 						ingred: []
 					};
-					f.foodname=data.menu_user[0].colacion2.idMenu.comidas[0].nombre;
-					f._id=data.menu_user[0].colacion2.idMenu.comidas[0]._id;
+					f.foodname = data.menu_user[0].colacion2.idMenu.comidas[0].nombre;
+					f._id = data.menu_user[0].colacion2.idMenu.comidas[0]._id;
 					for (let j = 0; j <= data.menu_user[0].colacion2.idMenu.comidas[0].ingred.length - 1; j++) {
-						f.ingred[j]={
+						f.ingred[j] = {
 							name: data.menu_user[0].colacion2.idMenu.comidas[0].ingred[j]._id.nombre,
+							img: `https://source.unsplash.com/featured/?` + data.menu_user[0].colacion2.idMenu.comidas[0].ingred[j]._id.nombre,
 							quantity: data.menu_user[0].colacion2.idMenu.comidas[0].ingred[j]._id.porcion,
 							unit: data.menu_user[0].colacion2.idMenu.comidas[0].ingred[j]._id.unitMeasure
 						};
@@ -156,11 +167,12 @@ export class TabDietPage {
 						_id: "",
 						ingred: []
 					};
-					f.foodname=data.menu_user[0].cena.idMenu.comidas[0].nombre;
-					f._id=data.menu_user[0].cena.idMenu.comidas[0]._id;
+					f.foodname = data.menu_user[0].cena.idMenu.comidas[0].nombre;
+					f._id = data.menu_user[0].cena.idMenu.comidas[0]._id;
 					for (let j = 0; j <= data.menu_user[0].cena.idMenu.comidas[0].ingred.length - 1; j++) {
-						f.ingred[j]={
+						f.ingred[j] = {
 							name: data.menu_user[0].cena.idMenu.comidas[0].ingred[j]._id.nombre,
+							img: `https://source.unsplash.com/featured/?` + data.menu_user[0].cena.idMenu.comidas[0].ingred[j]._id.nombre,
 							quantity: data.menu_user[0].cena.idMenu.comidas[0].ingred[j]._id.porcion,
 							unit: data.menu_user[0].cena.idMenu.comidas[0].ingred[j]._id.unitMeasure
 						};
@@ -188,6 +200,8 @@ export class TabDietPage {
 		let myDataChooserModal = this.modalCtrl.create('DateChooserModalPage', { data: { date: this.dietDate, to: new Date(2030, 0, 1), from: new Date() } });
 		myDataChooserModal.onDidDismiss(data => {
 			console.log(this.dietDate)
+			console.log(data)
+			// this.dietDate = data;
 		});
 		myDataChooserModal.present();
 	}
