@@ -88,6 +88,7 @@ export class TabDietPage {
 					};
 					///////////////////////////////////////////////////////////////////////////////
 					obj.time = "Colacion1"
+					console.log(data.menu_user[0].colacion1)
 					for (let i = 0; i <= data.menu_user[0].colacion1.idMenu.comidas.length - 1; i++) {
 						var f = {
 							foodname: "",
@@ -185,14 +186,15 @@ export class TabDietPage {
 					
 
 
-					console.log(this.groups);
+					//console.log(this.groups);
 
 				});
 		});
 	}
 
-	chooseMenu() {
-		let myDataChooserModal = this.modalCtrl.create('MenuChooserModalPage', { data: "No data" });
+	chooseMenu(timeFood) {
+		console.log(timeFood)
+		let myDataChooserModal = this.modalCtrl.create('MenuChooserModalPage', { data: timeFood });
 		myDataChooserModal.onDidDismiss(data => {
 			console.log(data);
 		});
