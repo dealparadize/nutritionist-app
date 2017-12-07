@@ -28,6 +28,7 @@ export class TabDietPage {
 	) {
 		this.dietDate=new Date().toISOString().slice(0, 10);
 	}
+	
 	getObjectMenu(): any {
 		let obj = {
 			time: "",
