@@ -20,10 +20,28 @@
 <ion-content padding>
 
 	<ion-list>
-
-		<br>Próxima cita: {{this?.appointment_obj?.fecha_moment || 'Sin fecha'}}
+		<ion-item >
+			<ion-icon name="calendar"></ion-icon>
+				Cita:
+			<ion-badge color="primary" item-end>{{this?.appointment_obj?.fecha_moment || 'Sin fecha'}}</ion-badge>
+		</ion-item>
+		
+		<ion-item *ngIf="this?.appointment_obj?.status=='cancelada'">
+			<ion-icon name="pulse"></ion-icon>
+				Status
+			<ion-badge color="secondary" item-end>{{this?.appointment_obj?.status || 'Sin status'}}</ion-badge>
+		</ion-item>
+		<ion-item *ngIf="this?.appointment_obj?.status=='pendiente'">
+			<ion-icon name="pulse"></ion-icon>
+				Status
+			<ion-badge color="active" item-end>{{this?.appointment_obj?.status || 'Sin status'}}</ion-badge>
+		</ion-item>
+		<ion-item *ngIf="this?.appointment_obj?.status=='terminada'">
+				<ion-icon name="pulse"></ion-icon>
+					Status
+				<ion-badge color="danger" item-end>{{this?.appointment_obj?.status || 'Sin status'}}</ion-badge>
+			</ion-item>
 		<br>
-
 		<form [formGroup]="myForm">
 
 			<ion-row align-items-center>
@@ -53,7 +71,7 @@
 			<ion-row align-items-center>
 				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 				<ion-col col-12 col-xl-4 col-lg-4 col-md-6>
-					<button class="mxgs-control-button" (click)="onRegister()" type="submit" color="light" block [disabled]="!appointment || !myForm.value.hour">Registrarse</button>
+					<button class="mxgs-control-button" (click)="onRegister()" type="submit" color="light" block [disabled]="!appointment || !myForm.value.hour">Agendar</button>
 				</ion-col>
 				<ion-col col-xl-4 col-lg-4 col-md-3></ion-col>
 			</ion-row>

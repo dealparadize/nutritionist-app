@@ -26,6 +26,7 @@ export class BookingPage {
 	hours = [];
 	_userdata: any;
 	appointment_obj: any;
+	appointment_status: any;
 
 	constructor(
 		public navCtrl: NavController,
@@ -103,6 +104,7 @@ export class BookingPage {
 				.subscribe(data => {
 					this.appointment_obj = data.appointment[0];
 					this.appointment_obj.fecha_moment = this.moment(this.appointment_obj.fecha.replace('.000Z','-0700')).format('LLL');
+					
 					this.appointment = undefined;
 				});
 		});
