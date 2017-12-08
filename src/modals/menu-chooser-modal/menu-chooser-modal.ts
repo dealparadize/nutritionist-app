@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { UserProvider } from "../../providers/user.provider";
 import { MenuProvider } from "../../providers/menu.provider";
+import { PantryProvider } from "../../providers/pantry.provider";
 /**
  * Generated class for the MenuChooserModalPage page.
  *
@@ -16,137 +17,75 @@ import { MenuProvider } from "../../providers/menu.provider";
 })
 export class MenuChooserModalPage {
 	groups: any = [];
-	
+	dietDate: any;
+	idUser: any;
+	deletedFood: any;
 
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		public viewCtrl: ViewController,
 		public userProvider: UserProvider,
-		public menuProvider: MenuProvider
+		public menuProvider: MenuProvider,
+		public pantryProvider: PantryProvider
 	) {
 		console.log("initialize NewItemModal")
 
 	}
 
-	closeDateChooser() {
+	closeDateChooser(idNewFood:any) {
+		
+		var obj={"paciente":{"idComida":this.deletedFood, "fecha":this.dietDate}};
+		this.pantryProvider.deletePantryElementByDate(this.idUser,obj)
+			.do(res => console.log())
+			.map(res => res.json())
+			.subscribe(data => {
+				var obj2={"paciente":{"idComida":idNewFood, "fecha":this.dietDate}};
+				this.pantryProvider.savePantry(this.idUser,obj2)
+					.do(res => console.log())
+					.map(res => res.json())
+					.subscribe(data => {
+						console.log("actualizado prro");
+					});
+			});
+		
+		
 		this.viewCtrl.dismiss();
 	}
 
+	
+
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad MenuChooserModalPage');
-		var tiempoComida = this.navParams.get("data");
-
+		
+		var datos=this.navParams.get("data");
+		
+		var tiempoComida = datos.foodType;
+		this.dietDate=datos.date;
+		this.idUser=datos.idUs;
+		this.deletedFood=datos.oldFood[0]._id;
+		console.log(this.deletedFood);
+		
 		this.userProvider.getUser().then(datos => {
-			var obj = {
-				time: "",
-				foods: []
-			};
-
 			this.menuProvider.getUserMenu(datos.user.menu_asignado[0])
 				.do(res => console.log())
 				.map(res => res.json())
 				.subscribe(data => {
 					switch(tiempoComida){
 						case "Desayuno":
-							for (let i = 0; i <= data.menu_user[0].desayuno.idMenu.comidas.length - 1; i++) {
-								var f = {
-									foodname: "",
-									_id: data.menu_user[0].desayuno.idMenu.comidas[i]._id,
-									ingred: []
-								};
-								f.foodname = data.menu_user[0].desayuno.idMenu.comidas[i].nombre;
-								for (let j = 0; j <= data.menu_user[0].desayuno.idMenu.comidas[i].ingred.length - 1; j++) {
-									f.ingred[j] = {
-										name: data.menu_user[0].desayuno.idMenu.comidas[i].ingred[j]._id.nombre,
-										quantity: data.menu_user[0].desayuno.idMenu.comidas[i].ingred[j]._id.porcion,
-										unit: data.menu_user[0].desayuno.idMenu.comidas[i].ingred[j]._id.unitMeasure
-									};
-		
-								}
-								this.groups[i] = f;
-							}
-							console.log(this.groups);
+							this.getMenuByType(data.menu_user[0].desayuno)
 						break;
 						case "Colacion1":
-							for (let i = 0; i <= data.menu_user[0].colacion1.idMenu.comidas.length - 1; i++) {
-								var f = {
-									foodname: "",
-									_id: data.menu_user[0].colacion1.idMenu.comidas[i]._id,
-									ingred: []
-								};
-								f.foodname = data.menu_user[0].colacion1.idMenu.comidas[i].nombre;
-								for (let j = 0; j <= data.menu_user[0].colacion1.idMenu.comidas[i].ingred.length - 1; j++) {
-									f.ingred[j] = {
-										name: data.menu_user[0].colacion1.idMenu.comidas[i].ingred[j]._id.nombre,
-										quantity: data.menu_user[0].colacion1.idMenu.comidas[i].ingred[j]._id.porcion,
-										unit: data.menu_user[0].colacion1.idMenu.comidas[i].ingred[j]._id.unitMeasure
-									};
-		
-								}
-								this.groups[i] = f;
-							}
-							console.log(this.groups);
+							this.getMenuByType(data.menu_user[0].colacion1)
 						break;
 						case "Comida":
-							for (let i = 0; i <= data.menu_user[0].comida.idMenu.comidas.length - 1; i++) {
-								var f = {
-									foodname: "",
-									_id: data.menu_user[0].comida.idMenu.comidas[i]._id,
-									ingred: []
-								};
-								f.foodname = data.menu_user[0].comida.idMenu.comidas[i].nombre;
-								for (let j = 0; j <= data.menu_user[0].comida.idMenu.comidas[i].ingred.length - 1; j++) {
-									f.ingred[j] = {
-										name: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.nombre,
-										quantity: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.porcion,
-										unit: data.menu_user[0].comida.idMenu.comidas[i].ingred[j]._id.unitMeasure
-									};
-		
-								}
-								this.groups[i] = f;
-							}
-							console.log(this.groups);
+							this.getMenuByType(data.menu_user[0].comida)
 						break;
 						case "Colacion2":
-							for (let i = 0; i <= data.menu_user[0].colacion2.idMenu.comidas.length - 1; i++) {
-								var f = {
-									foodname: "",
-									_id: data.menu_user[0].colacion2.idMenu.comidas[i]._id,
-									ingred: []
-								};
-								f.foodname = data.menu_user[0].colacion2.idMenu.comidas[i].nombre;
-								for (let j = 0; j <= data.menu_user[0].colacion2.idMenu.comidas[i].ingred.length - 1; j++) {
-									f.ingred[j] = {
-										name: data.menu_user[0].colacion2.idMenu.comidas[i].ingred[j]._id.nombre,
-										quantity: data.menu_user[0].colacion2.idMenu.comidas[i].ingred[j]._id.porcion,
-										unit: data.menu_user[0].colacion2.idMenu.comidas[i].ingred[j]._id.unitMeasure
-									};
-		
-								}
-								this.groups[i] = f;
-							}
-							console.log(this.groups);
+							this.getMenuByType(data.menu_user[0].colacion2)
 						break;
 						case "Cena":
-							for (let i = 0; i <= data.menu_user[0].cena.idMenu.comidas.length - 1; i++) {
-								var f = {
-									foodname: "",
-									_id: data.menu_user[0].cena.idMenu.comidas[i]._id,
-									ingred: []
-								};
-								f.foodname = data.menu_user[0].cena.idMenu.comidas[i].nombre;
-								for (let j = 0; j <= data.menu_user[0].cena.idMenu.comidas[i].ingred.length - 1; j++) {
-									f.ingred[j] = {
-										name: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.nombre,
-										quantity: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.porcion,
-										unit: data.menu_user[0].cena.idMenu.comidas[i].ingred[j]._id.unitMeasure
-									};
-		
-								}
-								this.groups[i] = f;
-							}
-							console.log(this.groups);
+							this.getMenuByType(data.menu_user[0].cena)
 						break;
 					}
 
@@ -154,4 +93,28 @@ export class MenuChooserModalPage {
 		});
 	}
 
+	getMenuByType(foodTime){
+		var obj = {
+			time: "",
+			foods: []
+		};
+		for (let i = 0; i <= foodTime.idMenu.comidas.length - 1; i++) {
+			var f = {
+				foodname: "",
+				_id: foodTime.idMenu.comidas[i]._id,
+				ingred: []
+			};
+			f.foodname = foodTime.idMenu.comidas[i].nombre;
+			for (let j = 0; j <= foodTime.idMenu.comidas[i].ingred.length - 1; j++) {
+				f.ingred[j] = {
+					name: foodTime.idMenu.comidas[i].ingred[j]._id.nombre,
+					quantity: foodTime.idMenu.comidas[i].ingred[j]._id.porcion,
+					unit: foodTime.idMenu.comidas[i].ingred[j]._id.unitMeasure
+				};
+
+			}
+			this.groups[i] = f;
+		}
+		console.log(this.groups);
+	}
 }

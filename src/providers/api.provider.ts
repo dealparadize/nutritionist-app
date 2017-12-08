@@ -81,13 +81,13 @@ export class ApiProvider {
             });
     }
 
-    delete(endpoint: string): Observable<any> {
+    delete(endpoint: string,body: any): Observable<any> {
         let options = new RequestOptions({ headers: this.headers });
 
         let loading = this.getLoading();
         loading.present();
 
-        return this.http.delete(`${this.url}${endpoint}`, options)
+        return this.http.delete(`${this.url}${endpoint}`, body, options)
             .finally(() => {
                 loading.dismiss();
             });;

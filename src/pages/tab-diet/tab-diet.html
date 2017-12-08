@@ -32,7 +32,7 @@
 
 		<ion-item-group *ngFor="let group of groups">
 
-			<ion-item-divider sticky (click)="chooseMenu(group.time)">
+			<ion-item-divider sticky (click)="chooseMenu(group.time,dietDate, idUser, group.foods)">
 				<ion-label>
 					Seleccione {{group.time}}
 				</ion-label>

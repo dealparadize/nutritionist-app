@@ -20,8 +20,11 @@ export class PantryProvider {
     savePantry(idUser: any, data :any): Observable<any> {
         return this.api.post('/patientPantry/' + idUser, data);
     }
-    getUserPantryByDate(idUser: any, date: any):Observable<any>{
+    getUserPantryByDate(idUser: any, date: any): Observable<any>{
         return this.api.get('/patientPantry/'+idUser+'/date/'+date);
+    }
+    deletePantryElementByDate(idUser:any, data: any): Observable<any>{
+        return this.api.delete('/patientPantry/'+idUser,data);
     }
     
 }

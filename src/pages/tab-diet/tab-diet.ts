@@ -21,6 +21,7 @@ export class TabDietPage {
 	despensa: any=[];
 	groups: any = [];
 	dietDate: any;
+	idUser: any;
 
 	constructor(
 		public navCtrl: NavController,
@@ -46,11 +47,7 @@ export class TabDietPage {
 	
 	load() {
 		this.userProvider.getUser().then(datos => {
-			var obj = {
-				time: "",
-				foods: []
-			};
-
+			this.idUser=datos.user._id;
 			this.menuProvider.getUserMenu(datos.user.menu_asignado[0])
 				.do(res => console.log())
 				.map(res => res.json())
@@ -73,11 +70,12 @@ export class TabDietPage {
 							} else{
 								console.log("holaaaaaaa");
 								
-								this.getFirstMenu(data.menu_user[0].cena,"Desayuno")
-								this.getFirstMenu(data.menu_user[0].cena,"Colacion1")
-								this.getFirstMenu(data.menu_user[0].cena,"Comida")
-								this.getFirstMenu(data.menu_user[0].cena,"Colacion2")
+								this.getFirstMenu(data.menu_user[0].desayuno,"Desayuno")
+								this.getFirstMenu(data.menu_user[0].colacion1,"Colacion1")
+								this.getFirstMenu(data.menu_user[0].comida,"Comida")
+								this.getFirstMenu(data.menu_user[0].colacion2,"Colacion2")
 								this.getFirstMenu(data.menu_user[0].cena,"Cena")
+								console.log()
 								this.savePantry(this.groups[0],datos.user._id);
 								this.savePantry(this.groups[1],datos.user._id);
 								this.savePantry(this.groups[2],datos.user._id);
@@ -90,6 +88,7 @@ export class TabDietPage {
 			});
 	}
 	savePantry(obj,id){
+		console.log(this.dietDate);
 		let o={"paciente":{"idComida": obj.foods[0]._id , "fecha":this.dietDate}}
 		this.pantryProvider.savePantry(id,o)
 		.do(res => console.log())
@@ -98,9 +97,8 @@ export class TabDietPage {
 			console.log("registrado "+ obj.foods[0]._id);
 		});
 	}
-	chooseMenu(foodType) {
-		console.log(foodType)
-		let myDataChooserModal = this.modalCtrl.create('MenuChooserModalPage', { data: foodType });
+	chooseMenu(foodType,date,idUs,oldFood) {
+		let myDataChooserModal = this.modalCtrl.create('MenuChooserModalPage', { data: {foodType, date, idUs, oldFood }});
 		myDataChooserModal.onDidDismiss(data => {
 			console.log(data);
 		});
