@@ -18,7 +18,7 @@ import { MessageProvider } from "../providers/message.provider";
 import { MenuProvider } from "../providers/menu.provider";
 import { NotificationMessageProvider } from "../providers/notification_message.provider";
 import { Camera, CameraOptions } from '@ionic-native/camera';
-
+import { PantryProvider } from "../providers/pantry.provider";
 @NgModule({
   declarations: [
     MyApp
@@ -43,6 +43,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
     UserProvider,
     MessageProvider,
     MenuProvider,
+    PantryProvider,
     // LocalNotifications,
     NotificationMessageProvider,
     Camera,
