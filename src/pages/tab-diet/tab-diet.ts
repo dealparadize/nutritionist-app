@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, Platform , AlertController} from 'ionic-angular';
 import { MenuProvider } from "../../providers/menu.provider";
 import { UserProvider } from "../../providers/user.provider";
 import { PantryProvider } from "../../providers/pantry.provider";
+import { LocalNotifications } from '@ionic-native/local-notifications';
 import * as moment from 'moment';
 /**
  * Generated class for the TabDietPage page.
@@ -20,6 +21,7 @@ export class TabDietPage {
 	moment = moment;
 	despensa: any=[];
 	groups: any = [];
+	hourNotifications: any=[];
 	dietDate: any;
 	idUser: any;
 
@@ -29,17 +31,35 @@ export class TabDietPage {
 		public modalCtrl: ModalController,
 		public userProvider: UserProvider,
 		public menuProvider: MenuProvider,
-		public pantryProvider: PantryProvider
+		public pantryProvider: PantryProvider,
+		public localNotifications: LocalNotifications,
+		public alertCtrl:AlertController,
+		public plt: Platform
+		
 	) {
 		this.moment.locale('es');
 		this.dietDate = this.moment(this.dietDate).format().substring(0,10);
+		this.plt.ready().then((readySource) => {
+			this.localNotifications.on('click', (notification, state) => {
+			  //let json = JSON.parse(notification.data);
+		 
+			  let alert = alertCtrl.create({
+				title: notification.title,
+				subTitle: "hola",
+				buttons:["OK"]
+			  });
+			  alert.present();
+			})
+		  });
 	}
 
 	ionViewWillEnter() {
-		console.log(this.moment(new Date()).format().substring(0,10));
+		
 		this.load();
-	}
 
+		
+	}
+	
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad TabDietPage');
 
@@ -83,10 +103,49 @@ export class TabDietPage {
 								this.savePantry(this.groups[4],datos.user._id);
 							}
 							
+							this.localNotifications.schedule([
+								{
+									id: 1,
+									title: 'Recordatorio',
+									text: 'Es hora de tu desayuno (:',
+									data: { mydata: 'My hidden message this is' },
+									at: new Date().setHours( this.hourNotifications[0].split(":")[0], this.hourNotifications[0].split(":")[1],0)//(new Date().getTime() + 5 * 1000)
+								},
+								{
+									id: 2,
+									title: 'Recordatorio',
+									text: 'Es hora de tu primera colación (:',
+									data: { mydata: 'My hidden message this is' },
+									at: new Date().setHours(this.hourNotifications[1].split(":")[0], this.hourNotifications[1].split(":")[1],0)//(new Date().getTime() + 5 * 1000)
+								},
+								{
+									id: 3,
+									title: 'Recordatorio',
+									text: 'Es hora de tu comida (:',
+									data: { mydata: 'My hidden message this is' },
+									at: new Date().setHours(this.hourNotifications[2].split(":")[0], this.hourNotifications[2].split(":")[1],0)//(new Date().getTime() + 5 * 1000)
+							  	},
+								{
+									id: 4,
+									title: 'Recordatorio',
+									text: 'Es hora de tu segunda colación (:',
+									data: { mydata: 'My hidden message this is' },
+									at: new Date().setHours(this.hourNotifications[3].split(":")[0], this.hourNotifications[3].split(":")[1],0)//(new Date().getTime() + 5 * 1000)
+								},
+								{
+									id: 5,
+									title: 'Recordatorio',
+									text: 'Es hora de tu cena (:',
+									data: { mydata: 'My hidden message this is' },
+									at: new Date().setHours(this.hourNotifications[4].split(":")[0], this.hourNotifications[4].split(":")[1],0)//(new Date().getTime() + 5 * 1000)
+							  	}      
+							]);
 						});
+						
 				});
 			});
 	}
+	
 	savePantry(obj,id){
 		console.log(this.dietDate);
 		let o={"paciente":{"idComida": obj.foods[0]._id , "fecha":this.dietDate}}
@@ -128,6 +187,7 @@ export class TabDietPage {
 		};
 		f.foodname = foodTime.idMenu.comidas[0].nombre;
 		f._id = foodTime.idMenu.comidas[0]._id;
+		this.hourNotifications.push(foodTime.hora);
 		for (let j = 0; j <= foodTime.idMenu.comidas[0].ingred.length - 1; j++) {
 			f.ingred[j] = {
 				name: foodTime.idMenu.comidas[0].ingred[j]._id.nombre,
@@ -148,9 +208,11 @@ export class TabDietPage {
 			time: "",
 			foods: []
 		};
+		
 		obj.time = name;
 		for (let i = 0; i <= foodTime.idMenu.comidas.length - 1; i++) {
 			if(foodTime.idMenu.comidas[i]._id==id){
+				this.hourNotifications.push(foodTime.hora);
 				
 				var f = {
 					foodname: "",
