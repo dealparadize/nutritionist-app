@@ -81,17 +81,17 @@ export class ApiProvider {
             });
     }
 
-    delete(endpoint: string,body: any): Observable<any> {
-        let options = new RequestOptions({ headers: this.headers });
+    // delete(endpoint: string,body: any): Observable<any> {
+    //     let options = new RequestOptions({ headers: this.headers });
 
-        let loading = this.getLoading();
-        loading.present();
+    //     let loading = this.getLoading();
+    //     loading.present();
 
-        return this.http.delete(`${this.url}${endpoint}`, body, options)
-            .finally(() => {
-                loading.dismiss();
-            });;
-    }
+    //     // return this.http.delete(`${this.url}${endpoint}`, body, options)
+    //     //     .finally(() => {
+    //     //         loading.dismiss();
+    //     //     });
+    // }
 
     patch(endpoint: string, body: any): Observable<any> {
         let options = new RequestOptions({ headers: this.headers });

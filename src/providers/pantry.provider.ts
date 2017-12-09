@@ -14,17 +14,19 @@ export class PantryProvider {
         public events: Events,
         public storage: Storage,
         public api: ApiProvider
-    ) {}
+    ) { }
 
 
-    savePantry(idUser: any, data :any): Observable<any> {
+    savePantry(idUser: any, data: any): Observable<any> {
         return this.api.post('/patientPantry/' + idUser, data);
     }
-    getUserPantryByDate(idUser: any, date: any): Observable<any>{
-        return this.api.get('/patientPantry/'+idUser+'/date/'+date);
-    }
-    deletePantryElementByDate(idUser:any, data: any): Observable<any>{
-        return this.api.delete('/patientPantry/'+idUser,data);
-    }
     
+    getUserPantryByDate(idUser: any, date: any): Observable<any> {
+        return this.api.get('/patientPantry/' + idUser + '/date/' + date);
+    }
+
+    // deletePantryElementByDate(idUser:any, data: any): Observable<any>{
+    //     return this.api.delete('/patientPantry/'+idUser,data);
+    // }
+
 }
