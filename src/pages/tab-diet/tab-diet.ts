@@ -42,13 +42,7 @@ export class TabDietPage {
 		this.plt.ready().then((readySource) => {
 			this.localNotifications.on('click', (notification, state) => {
 			  //let json = JSON.parse(notification.data);
-		 
-			  let alert = alertCtrl.create({
-				title: notification.title,
-				subTitle: "hola",
-				buttons:["OK"]
-			  });
-			  alert.present();
+			
 			})
 		  });
 	}
@@ -87,14 +81,15 @@ export class TabDietPage {
 									this.getSelectedMenu(data.menu_user[0].cena,"Cena",comidas.despensa[k].menuId,4);
 								}
 								console.log(this.groups);
+								console.log(this.hourNotifications);
 							} else{
 								console.log("holaaaaaaa");
 								
-								this.getFirstMenu(data.menu_user[0].desayuno,"Desayuno")
-								this.getFirstMenu(data.menu_user[0].colacion1,"Colacion1")
-								this.getFirstMenu(data.menu_user[0].comida,"Comida")
-								this.getFirstMenu(data.menu_user[0].colacion2,"Colacion2")
-								this.getFirstMenu(data.menu_user[0].cena,"Cena")
+								this.getFirstMenu(data.menu_user[0].desayuno,"Desayuno",0)
+								this.getFirstMenu(data.menu_user[0].colacion1,"Colacion1",1)
+								this.getFirstMenu(data.menu_user[0].comida,"Comida",2)
+								this.getFirstMenu(data.menu_user[0].colacion2,"Colacion2",3)
+								this.getFirstMenu(data.menu_user[0].cena,"Cena",4)
 								console.log()
 								this.savePantry(this.groups[0],datos.user._id);
 								this.savePantry(this.groups[1],datos.user._id);
@@ -102,44 +97,53 @@ export class TabDietPage {
 								this.savePantry(this.groups[3],datos.user._id);
 								this.savePantry(this.groups[4],datos.user._id);
 							}
-							
-							this.localNotifications.schedule([
-								{
-									id: 1,
-									title: 'Recordatorio',
-									text: 'Es hora de tu desayuno (:',
-									data: { mydata: 'My hidden message this is' },
-									at: new Date().setHours( this.hourNotifications[0].split(":")[0], this.hourNotifications[0].split(":")[1],0)//(new Date().getTime() + 5 * 1000)
-								},
-								{
-									id: 2,
-									title: 'Recordatorio',
-									text: 'Es hora de tu primera colación (:',
-									data: { mydata: 'My hidden message this is' },
-									at: new Date().setHours(this.hourNotifications[1].split(":")[0], this.hourNotifications[1].split(":")[1],0)//(new Date().getTime() + 5 * 1000)
-								},
-								{
-									id: 3,
-									title: 'Recordatorio',
-									text: 'Es hora de tu comida (:',
-									data: { mydata: 'My hidden message this is' },
-									at: new Date().setHours(this.hourNotifications[2].split(":")[0], this.hourNotifications[2].split(":")[1],0)//(new Date().getTime() + 5 * 1000)
-							  	},
-								{
-									id: 4,
-									title: 'Recordatorio',
-									text: 'Es hora de tu segunda colación (:',
-									data: { mydata: 'My hidden message this is' },
-									at: new Date().setHours(this.hourNotifications[3].split(":")[0], this.hourNotifications[3].split(":")[1],0)//(new Date().getTime() + 5 * 1000)
-								},
-								{
-									id: 5,
-									title: 'Recordatorio',
-									text: 'Es hora de tu cena (:',
-									data: { mydata: 'My hidden message this is' },
-									at: new Date().setHours(this.hourNotifications[4].split(":")[0], this.hourNotifications[4].split(":")[1],0)//(new Date().getTime() + 5 * 1000)
-							  	}      
-							]);
+							//this.hourNotifications=["14:18","14:19","14:20","14:21","14:21"]
+							this.userProvider.getUserData(datos.user._id)
+								.do(res => console.log())
+								.map(res => res.json())
+								.subscribe(info =>{
+									var del=info.paciente[0].userconfig.timeBefore;
+									if(info.paciente[0].userconfig.aceptNotification){
+										console.log("creando notificaciones");
+										this.localNotifications.schedule([
+											{
+												id: 1,
+												title: 'Recordatorio',
+												text: 'Es hora de tu desayuno (:',
+												data: { mydata: 'My hidden message this is' },
+												at: moment(new Date().setHours( this.hourNotifications[0].split(":")[0], this.hourNotifications[0].split(":")[1],0)).subtract(del, "minutes").toDate()//(new Date().getTime() + 5 * 1000)
+											},
+											{
+												id: 2,
+												title: 'Recordatorio',
+												text: 'Es hora de tu primera colación (:',
+												data: { mydata: 'My hidden message this is' },
+												at: moment(new Date().setHours(this.hourNotifications[1].split(":")[0], this.hourNotifications[1].split(":")[1],0)).subtract(del, "minutes").toDate()//(new Date().getTime() + 5 * 1000)
+											},
+											{
+												id: 3,
+												title: 'Recordatorio',
+												text: 'Es hora de tu comida (:',
+												data: { mydata: 'My hidden message this is' },
+												at: moment(new Date().setHours(this.hourNotifications[2].split(":")[0], this.hourNotifications[2].split(":")[1],0)).subtract(del, "minutes").toDate()//(new Date().getTime() + 5 * 1000)
+											},
+											{
+												id: 4,
+												title: 'Recordatorio',
+												text: 'Es hora de tu segunda colación (:',
+												data: { mydata: 'My hidden message this is' },
+												at: moment(new Date().setHours(this.hourNotifications[3].split(":")[0], this.hourNotifications[3].split(":")[1],0)).subtract(del, "minutes").toDate()//(new Date().getTime() + 5 * 1000)
+											},
+											{
+												id: 5,
+												title: 'Recordatorio',
+												text: 'Es hora de tu cena (:',
+												data: { mydata: 'My hidden message this is' },
+												at: moment(new Date().setHours(this.hourNotifications[4].split(":")[0], this.hourNotifications[4].split(":")[1],0)).subtract(del, "minutes").toDate()//(new Date().getTime() + 5 * 1000)
+											}      
+										]);
+									}
+								});
 						});
 						
 				});
@@ -175,7 +179,7 @@ export class TabDietPage {
 		});
 		myDataChooserModal.present();
 	}
-	getFirstMenu(foodTime,name){
+	getFirstMenu(foodTime,name,position){
 		var obj = {
 			time: name,
 			foods: []
@@ -187,7 +191,8 @@ export class TabDietPage {
 		};
 		f.foodname = foodTime.idMenu.comidas[0].nombre;
 		f._id = foodTime.idMenu.comidas[0]._id;
-		this.hourNotifications.push(foodTime.hora);
+		this.hourNotifications[position]=foodTime.hora;
+		//this.hourNotifications.push(foodTime.hora);
 		for (let j = 0; j <= foodTime.idMenu.comidas[0].ingred.length - 1; j++) {
 			f.ingred[j] = {
 				name: foodTime.idMenu.comidas[0].ingred[j]._id.nombre,
@@ -212,7 +217,7 @@ export class TabDietPage {
 		obj.time = name;
 		for (let i = 0; i <= foodTime.idMenu.comidas.length - 1; i++) {
 			if(foodTime.idMenu.comidas[i]._id==id){
-				this.hourNotifications.push(foodTime.hora);
+				this.hourNotifications[position]=foodTime.hora;
 				
 				var f = {
 					foodname: "",

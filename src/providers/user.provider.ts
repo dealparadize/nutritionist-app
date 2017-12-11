@@ -83,12 +83,18 @@ export class UserProvider {
     signup(data: any): Observable<any> {
         return this.api.post('/patient/', data);
     };
+    
+    getUserData(id: any): Observable<any>{
+        return this.api.get('/patient/'+id);
+    }
 
 
     logout(): void {
         this.events.publish('user:logout');
     };
-
+    updateNotificationState(id: any, data: any): Observable<any>{
+        return this.api.put('/patient/'+id,data);
+    }
     /**
      * appointment
      */

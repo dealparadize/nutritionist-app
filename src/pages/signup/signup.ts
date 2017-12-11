@@ -162,7 +162,11 @@ export class SignupPage {
 					meta: _this_.myForm.value.q5,
 					activo: false,
 					idCita: id, //se guarda la cita generada
-					device_key: devicekey
+					device_key: devicekey,
+					userconfig: {
+						timeBefore: 15,
+						aceptNotification: true
+					}
 				}
 			}
 

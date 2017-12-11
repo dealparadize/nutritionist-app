@@ -23,23 +23,13 @@
 
 
 <ion-content padding>
-  
-  <ion-list>
-
-    <button ion-item (click)="chooseMenu()">
-      Elegir menus
-    </button>
-
-  </ion-list>
-
   <ion-list>
 
     <ion-item *ngFor="let item of items">
       <ion-checkbox></ion-checkbox>
       <ion-label>
-        {{item.name}} 
+        {{item}} 
         <br>
-        <ion-note>{{item.quantity}}</ion-note>
       </ion-label>
 
     </ion-item>

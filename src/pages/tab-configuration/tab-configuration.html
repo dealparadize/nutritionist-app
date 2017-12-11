@@ -79,17 +79,17 @@
     </ion-list-header>
 
     <ion-item>
-      <ion-toggle checked="true"></ion-toggle>
+      <ion-toggle [(ngModel)]="tBtn" (ionChange)="changeState()" ></ion-toggle>
       <ion-label>
         Activadas
       </ion-label>
     </ion-item>
 
     <ion-item>
-      <ion-select>
-        <ion-option selected>15 min</ion-option>
-        <ion-option>20 min</ion-option>
-        <ion-option>30 min</ion-option>
+      <ion-select [(ngModel)]="delay">
+        <ion-option selected value="15">15 min</ion-option>
+        <ion-option value="20">20 min</ion-option>
+        <ion-option value="30">30 min</ion-option>
       </ion-select>
       <ion-label>
         Frecuencia
