@@ -33,67 +33,72 @@ export class MenuChooserModalPage {
 
 	}
 
-	closeDateChooser(idNewFood:any) {
-		
-		var obj={"paciente":{"idComida":this.deletedFood, "fecha":this.dietDate}};
-		this.pantryProvider.deletePantryElementByDate(this.idUser,obj)
-			.do(res => console.log())
-			.map(res => res.json())
-			.subscribe(data => {
-				var obj2={"paciente":{"idComida":idNewFood, "fecha":this.dietDate}};
-				this.pantryProvider.savePantry(this.idUser,obj2)
-					.do(res => console.log())
-					.map(res => res.json())
-					.subscribe(data => {
-						console.log("actualizado prro");
-					});
-			});
-		
-		
+	dismiss() {
 		this.viewCtrl.dismiss();
 	}
 
-	
+	closeDateChooser(idNewFood: any) {
+
+		let obj = { "paciente": { "idComida": this.deletedFood, "fecha": this.dietDate } };
+		// this.pantryProvider.deletePantryElementByDate(this.idUser, obj)
+		// 	.do(res => console.log())
+		// 	.map(res => res.json())
+		// 	.subscribe(data => {
+		// 		var obj2={"paciente":{"idComida":idNewFood, "fecha":this.dietDate}};
+		// 		this.pantryProvider.savePantry(this.idUser,obj2)
+		// 			.do(res => console.log())
+		// 			.map(res => res.json())
+		// 			.subscribe(data => {
+		// 				console.log("actualizado prro");
+
+		// 				this.viewCtrl.dismiss();
+		// 			});
+		// 	});
+
+
+	}
+
+
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad MenuChooserModalPage');
-		
-		var datos=this.navParams.get("data");
-		
+
+		var datos = this.navParams.get("data");
+
 		var tiempoComida = datos.foodType;
-		this.dietDate=datos.date;
-		this.idUser=datos.idUs;
-		this.deletedFood=datos.oldFood[0]._id;
+		this.dietDate = datos.date;
+		this.idUser = datos.idUs;
+		this.deletedFood = datos.oldFood[0]._id;
 		console.log(this.deletedFood);
-		
+
 		this.userProvider.getUser().then(datos => {
 			this.menuProvider.getUserMenu(datos.user.menu_asignado[0])
 				.do(res => console.log())
 				.map(res => res.json())
 				.subscribe(data => {
-					switch(tiempoComida){
+					switch (tiempoComida) {
 						case "Desayuno":
 							this.getMenuByType(data.menu_user[0].desayuno)
-						break;
+							break;
 						case "Colacion1":
 							this.getMenuByType(data.menu_user[0].colacion1)
-						break;
+							break;
 						case "Comida":
 							this.getMenuByType(data.menu_user[0].comida)
-						break;
+							break;
 						case "Colacion2":
 							this.getMenuByType(data.menu_user[0].colacion2)
-						break;
+							break;
 						case "Cena":
 							this.getMenuByType(data.menu_user[0].cena)
-						break;
+							break;
 					}
 
 				});
 		});
 	}
 
-	getMenuByType(foodTime){
+	getMenuByType(foodTime) {
 		var obj = {
 			time: "",
 			foods: []
