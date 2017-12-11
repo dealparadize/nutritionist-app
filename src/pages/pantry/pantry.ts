@@ -31,11 +31,12 @@ export class PantryPage {
 		this.pantryDate = this.moment(this.pantryDate).format().substring(0,10);
 	}
 
-	
 	ionViewWillEnter() {
+		this.load();
+	}
+
+	load() {
 		this.userProvider.getUser().then(datos => {
-			console.log(datos.user._id);
-			console.log(this.pantryDate);
 			this.pantryProvider.getUserPantryIngredsByDate(datos.user._id,this.pantryDate)
 			.do(res => console.log())
 			.map(res => res.json())
@@ -49,11 +50,8 @@ export class PantryPage {
 	openDateChooser() {
 		let myDataChooserModal = this.modalCtrl.create('DateChooserModalPage', { data: { date: this.pantryDate, to: new Date(2030, 0, 1), from: new Date() } });
 		myDataChooserModal.onDidDismiss(data => {
-			//console.log(this.pantryDate)
-			//console.log(this.moment(data).format().substring(0,10))
-			this.pantryDate = this.moment(data).format().substring(0,10);
-			
-			
+			this.pantryDate = this.moment(data).format().substring(0,10);	
+			this.load();		
 		});
 		myDataChooserModal.present();
 	}

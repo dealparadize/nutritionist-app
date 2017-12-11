@@ -40,20 +40,20 @@ export class MenuChooserModalPage {
 	closeDateChooser(idNewFood: any) {
 
 		let obj = { "paciente": { "idComida": this.deletedFood, "fecha": this.dietDate } };
-		// this.pantryProvider.deletePantryElementByDate(this.idUser, obj)
-		// 	.do(res => console.log())
-		// 	.map(res => res.json())
-		// 	.subscribe(data => {
-		// 		var obj2={"paciente":{"idComida":idNewFood, "fecha":this.dietDate}};
-		// 		this.pantryProvider.savePantry(this.idUser,obj2)
-		// 			.do(res => console.log())
-		// 			.map(res => res.json())
-		// 			.subscribe(data => {
-		// 				console.log("actualizado prro");
+		 this.pantryProvider.deletePantryElementByDate(this.idUser, obj)
+		 	.do(res => console.log())
+		 	.map(res => res.json())
+		 	.subscribe(data => {
+		 		var obj2={"paciente":{"idComida":idNewFood, "fecha":this.dietDate}};
+		 		this.pantryProvider.savePantry(this.idUser,obj2)
+		 			.do(res => console.log())
+		 			.map(res => res.json())
+		 			.subscribe(data => {
+		 				console.log("actualizado prro");
 
-		// 				this.viewCtrl.dismiss();
-		// 			});
-		// 	});
+		 				this.viewCtrl.dismiss();
+		 			});
+		 	});
 
 
 	}

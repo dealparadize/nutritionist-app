@@ -66,7 +66,10 @@ export class ApiProvider {
         let loading = this.getLoading();
         loading.present();
 
-        return this.http.post(`${this.url}${endpoint}`, body, options);
+        return this.http.post(`${this.url}${endpoint}`, body, options)
+        .finally(() => {
+            loading.dismiss();
+        });
     }
 
     put(endpoint: string, body: any): Observable<any> {

@@ -157,13 +157,12 @@ export class TabDietPage {
 		.do(res => console.log())
 		.map(res => res.json())
 		.subscribe(data => {
-			console.log("registrado "+ obj.foods[0]._id);
 		});
 	}
 	chooseMenu(foodType,date,idUs,oldFood) {
 		let myDataChooserModal = this.modalCtrl.create('MenuChooserModalPage', { data: {foodType, date, idUs, oldFood }});
 		myDataChooserModal.onDidDismiss(data => {
-			console.log(data);
+			this.load();
 		});
 		myDataChooserModal.present();
 	}
@@ -171,8 +170,6 @@ export class TabDietPage {
 	openDateChooser() {
 		let myDataChooserModal = this.modalCtrl.create('DateChooserModalPage', { data: { date: this.dietDate, to: new Date(2030, 0, 1), from: new Date() } });
 		myDataChooserModal.onDidDismiss(data => {
-			console.log(this.dietDate)
-			console.log(this.moment(data).format().substring(0,10))
 			this.dietDate = this.moment(data).format().substring(0,10);
 			this.load();
 			
@@ -197,7 +194,7 @@ export class TabDietPage {
 			f.ingred[j] = {
 				name: foodTime.idMenu.comidas[0].ingred[j]._id.nombre,
 				img: `https://source.unsplash.com/featured/?` + foodTime.idMenu.comidas[0].ingred[j]._id.nombre,
-				quantity: foodTime.idMenu.comidas[0].ingred[j]._id.porcion,
+				quantity: foodTime.idMenu.comidas[0].ingred[j]._id.porcion*foodTime.idMenu.comidas[0].ingred[j].cant,
 				unit: foodTime.idMenu.comidas[0].ingred[j]._id.unitMeasure
 			};
 		}
@@ -228,7 +225,7 @@ export class TabDietPage {
 				for (let j = 0; j <= foodTime.idMenu.comidas[i].ingred.length - 1; j++) {
 					f.ingred[j] = {
 						name: foodTime.idMenu.comidas[i].ingred[j]._id.nombre,
-						quantity: foodTime.idMenu.comidas[i].ingred[j]._id.porcion,
+						quantity: foodTime.idMenu.comidas[i].ingred[j]._id.porcion*foodTime.idMenu.comidas[i].ingred[j].cant,
 						img: `https://source.unsplash.com/featured/?` + foodTime.idMenu.comidas[i].ingred[j]._id.nombre,
 						unit: foodTime.idMenu.comidas[i].ingred[j]._id.unitMeasure
 					};
