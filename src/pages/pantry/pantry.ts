@@ -19,6 +19,7 @@ export class PantryPage {
 	items: Array<any> = []
 	pantryDate:any;
 	moment= moment;
+	checks:Array<any> = [];
 
 	constructor(
 		public navCtrl: NavController,
@@ -35,16 +36,34 @@ export class PantryPage {
 		this.load();
 	}
 
+	saveChecked(i, event){
+		//console.log(event);
+		this.pantryProvider.setPantryItem(this.pantryDate, this.items.length, i, event.value).then(data=>{
+			this.load();
+		})
+		;
+	}
+
+	getChecked(){
+		this.pantryProvider.getPantryItems(this.pantryDate)
+			.then(data=>{
+				console.log(data);
+				this.checks=data;
+				console.log(this.checks);
+			});
+	}
+
 	load() {
 		this.userProvider.getUser().then(datos => {
 			this.pantryProvider.getUserPantryIngredsByDate(datos.user._id,this.pantryDate)
-			.do(res => console.log())
+			.do(res => console.log(res.json()))
 			.map(res => res.json())
 			.subscribe(data => {
-				console.log(data);
 				this.items=data.despensa;
+				this.getChecked();
 			});
 		})
+		//this.getChecked();
 	}
 
 	openDateChooser() {

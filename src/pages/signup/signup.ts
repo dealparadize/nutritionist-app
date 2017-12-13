@@ -62,8 +62,8 @@ export class SignupPage {
 		console.log('ionViewDidLoad SignupPage');
 		this.userProvider.getUser().then(datos => {
 			console.log("userinstorage");
-			console.log(datos.user._id);
-			this.userProvider.api.setTokenHeader(datos.token);
+			//console.log(datos.user._id);
+			//this.userProvider.api.setTokenHeader(datos.token);
 			
 		  });
 	}
@@ -87,11 +87,11 @@ export class SignupPage {
 			this.appointment = new Date(data).toISOString().slice(0, 10);
 			console.log("segundo " + this.appointment);
 			this.userProvider.getAppointmentsForDate(this.appointment)	//para que se vuelve a reiniciar el date
-				.do(res => console.log(res.json()))
+				.do(res => console.log())
 				.map(res => res.json())
 				.subscribe(data => {
 					//console.log(data.appointment[1]);
-					console.log(this.filterHours(data.appointments));
+					console.log(this.filterHours(data.appointment));
 					this.hours = this.filterHours(data.appointment);
 					//obtener el json con los que ya estan 	
 					//

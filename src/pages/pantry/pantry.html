@@ -25,8 +25,8 @@
 <ion-content padding>
   <ion-list>
 
-    <ion-item *ngFor="let item of items">
-      <ion-checkbox></ion-checkbox>
+    <ion-item *ngFor="let item of items; index as i">
+      <ion-checkbox (ionChange)="saveChecked(i, $event)" [checked]="checks[i]"></ion-checkbox>
       <ion-label>
         {{item}} 
         <br>
