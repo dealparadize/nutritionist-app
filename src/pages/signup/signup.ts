@@ -174,7 +174,20 @@ export class SignupPage {
 				.do(res => console.log(res.json()))
 				.map(res => res.json())
 				.subscribe(data => {
-					_this_.showToast();
+					console.log(data);
+					const history: any = {
+						historial_citas: {
+						  paciente: data.paciente._id
+						}
+					};
+					_this_.userProvider.createHistory(history)
+						.do(res => console.log(res.json()))
+						.map(res => res.json())
+						.subscribe(history => {
+							console.log('resHistory', history);
+							_this_.showToast();
+						});
+					
 				});
 		}
 

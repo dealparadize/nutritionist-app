@@ -83,7 +83,9 @@ export class UserProvider {
     signup(data: any): Observable<any> {
         return this.api.post('/patient/', data);
     };
-    
+    createHistory(data :any): Observable<any>{
+        return this.api.post('/appointmentHistory/',data);
+    };
     getUserData(id: any): Observable<any>{
         return this.api.get('/patient/'+id);
     }
